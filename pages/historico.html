@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico Clínico - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/paciente.css">
+</head>
+<body class="paciente-page">
+
+    <header class="cabeçalho">
+        <a href="../index.html">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo">
+        </a>
+        <nav>
+            <ul class="menu">
+                <li><a href="../paciente.html">HOME</a></li>
+                <li><a href="agendamentos.html">AGENDAMENTOS</a></li>
+                <li><a href="historico.html" class="ativo">HISTÓRICO CLÍNICO</a></li>
+                <li><a href="plano.html">PLANOS E COBERTURAS</a></li>
+                <li><a href="perfil.html">MEU PERFIL</a></li>
+                <li><a href="ajuda.html">SUPORTE</a></li>
+                <li><a href="../index.html" id="sair">SAIR</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper historico-page-wrapper">
+        <div class="historico-header">
+            <h1>Histórico Clínico</h1>
+            <p>Acesse o registro completo de suas consultas e arquivos recebidos.</p>
+        </div>
+
+        <!-- Sistema de abas -->
+        <div class="tabs-container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="showTab('consultas')">Suas Consultas</button>
+                <button class="tab-btn" onclick="showTab('arquivos')">Arquivos Recebidos</button>
+            </div>
+
+            <!-- Aba de Consultas -->
+            <div id="tab-consultas" class="tab-content active">
+                <div class="historico-search-bar">
+                    <div class="form-group-historico">
+                        <label for="periodoInicial">Período inicial</label>
+                        <input type="date" id="periodoInicial" name="periodoInicial">
+                    </div>
+                    <div class="form-group-historico">
+                        <label for="periodoFinal">Período final</label>
+                        <input type="date" id="periodoFinal" name="periodoFinal">
+                    </div>
+                    <button class="btn btn-pesquisar-historico">Pesquisar</button>
+                </div>
+
+                <div class="historico-table-container">
+                    <table class="historico-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Hora</th>
+                                <th>Profissional da saúde</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Aba de Arquivos -->
+            <div id="tab-arquivos" class="tab-content" style="display: none;">
+                <div class="arquivos-section">
+                    <div class="arquivos-grid">
+                        <p class="loading-arquivos">Carregando arquivos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="../assets/logo.png" alt="Logo CliniVida">
+            </div>
+            <nav class="rodape-mapa">
+                <h5>Mapa do Site</h5>
+                <ul>
+                    <li><a href="../paciente.html">Home</a></li>
+                    <li><a href="agendamentos.html">Agendamentos</a></li>
+                    <li><a href="historico.html">Histórico Clínico</a></li>
+                    <li><a href="plano.html">Planos e Coberturas</a></li>
+                    <li><a href="perfil.html">Meu Perfil</a></li>
+                    <li><a href="ajuda.html">Suporte</a></li>
+                </ul>
+            </nav>
+            <div class="rodape-contato">
+                <h5>Contato</h5>
+                <p>(xx) xxxxx-xxxx</p>
+                <p>contato@clinivida.com.br</p>
+            </div>
+            <div class="rodape-redes">
+                <h5>Redes Sociais</h5>
+                <div style="display: flex; gap: 10px;">
+                    <a href="#"><img src="../assets/icone-instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="../assets/icone-facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="../assets/icone-whatsapp.png" alt="WhatsApp"></a>
+                </div>
+            </div>
+        </div>
+        <div class="rodape-copy">
+            &copy; 2025 CliniVida. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <!-- Modal de Detalhes -->
+    <div id="modal-detalhes-historico" class="modal-detalhes-historico">
+        <div class="modal-detalhes-conteudo">
+            <button class="modal-detalhes-fechar" onclick="fecharModalDetalhes()">&times;</button>
+            <h2 class="modal-detalhes-titulo" id="modal-titulo">Detalhes da Consulta</h2>
+            
+            <div class="detalhes-info">
+                <div class="detalhes-campo">
+                    <div class="detalhes-label">Data</div>
+                    <div class="detalhes-valor" id="modal-data">-</div>
+                </div>
+                
+                <div class="detalhes-campo">
+                    <div class="detalhes-label">Horário</div>
+                    <div class="detalhes-valor" id="modal-horario">-</div>
+                </div>
+                
+                <div class="detalhes-campo">
+                    <div class="detalhes-label">Tipo</div>
+                    <div class="detalhes-valor" id="modal-tipo">-</div>
+                </div>
+                
+                <div class="detalhes-campo">
+                    <div class="detalhes-label">Profissional</div>
+                    <div class="detalhes-valor" id="modal-profissional">-</div>
+                </div>
+                
+                <div class="detalhes-campo">
+                    <div class="detalhes-label">Status</div>
+                    <div class="detalhes-valor">
+                        <span id="modal-status" class="detalhes-status">-</span>
+                    </div>
+                </div>
+                
+                <div class="detalhes-campo">
+                    <div class="detalhes-label">Valor</div>
+                    <div class="detalhes-valor" id="modal-valor">-</div>
+                </div>
+                
+                <div class="detalhes-campo-completo">
+                    <div class="detalhes-label">Observações</div>
+                    <div class="detalhes-valor" id="modal-observacoes">-</div>
+                </div>
+            </div>
+            
+            <div class="detalhes-acoes">
+                <button class="btn-modal-acao btn-fechar-modal" onclick="fecharModalDetalhes()">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para alternar entre abas
+        function showTab(tabName) {
+            // Ocultar todos os conteúdos das abas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+
+            // Remover classe ativa de todos os botões
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar o conteúdo da aba selecionada
+            const selectedTab = document.getElementById(`tab-${tabName}`);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+                selectedTab.classList.add('active');
+            }
+
+            // Ativar o botão correspondente
+            event.target.classList.add('active');
+        }
+
+        // Lógica de pesquisa de histórico (apenas para aba de consultas)
+        document.querySelector('.btn-pesquisar-historico').addEventListener('click', function() {
+            const inicio = document.getElementById('periodoInicial').value;
+            const fim = document.getElementById('periodoFinal').value;
+            // Aqui você faria uma chamada AJAX para buscar os dados e preencher a tabela
+            console.log('Pesquisando consultas de', inicio, 'até', fim);
+        });
+
+        // Função de sair (copiada do paciente.html)
+        const sairBtn = document.getElementById('sair');
+        if (sairBtn) {
+            sairBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('paciente_nome');
+                localStorage.removeItem('paciente_email');
+                localStorage.removeItem('paciente_senha');
+                window.location.href = "../index.html";
+            });
+        }
+
+        // Função global para fechar modal de detalhes
+        window.fecharModalDetalhes = function() {
+            document.getElementById('modal-detalhes-historico').classList.remove('ativo');
+        };
+
+        // Fechar modal ao clicar fora dele
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('modal-detalhes-historico');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        fecharModalDetalhes();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/historico.js"></script>
+</body>
+</html>

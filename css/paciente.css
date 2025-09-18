@@ -1,0 +1,1716 @@
+/* Estilos específicos para as páginas do paciente */
+
+/* Layout base do paciente */
+.paciente-page {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* Header do paciente */
+.cabeçalho {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+  padding: 15px 5%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Main content wrapper */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.main-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Welcome message */
+.welcome-message {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.welcome-message h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 2.2rem;
+}
+
+.welcome-message p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Feature cards */
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border-left: 4px solid #667eea;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.feature-card h2 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.feature-card p {
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+/* Páginas específicas */
+
+/* Agendamentos */
+.agenda-page-wrapper {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 40px;
+  margin: 20px auto;
+}
+
+.agenda-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.agenda-step {
+  text-align: center;
+}
+
+.agenda-titulo {
+  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+
+/* Carrossel de Profissionais */
+.profissionais-carrossel {
+  position: relative;
+  max-width: 700px; /* Aumentado para dar espaço aos botões */
+  margin: 40px auto;
+  overflow: visible; /* Mudado para visible para não cortar os botões */
+  padding: 0 60px; /* Padding para os botões */
+}
+
+.profissionais-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e1e8ed;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.profissionais-loading p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+.carrossel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.carrossel-btn:hover {
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+  background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+}
+
+.carrossel-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.carrossel-prev {
+  left: -50px; /* Ajustado para ficar mais próximo mas visível */
+}
+
+.carrossel-next {
+  right: -50px; /* Ajustado para ficar mais próximo mas visível */
+}
+
+.profissionais-container {
+  display: flex;
+  transition: transform 0.5s ease;
+  overflow: visible; /* Mudado para visible para permitir o efeito de fade */
+  border-radius: 20px;
+  /* A largura será definida dinamicamente pelo JavaScript */
+}
+
+.profissional-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  text-align: center;
+  opacity: 0;
+  visibility: hidden; /* Inicialmente invisível */
+  transform: scale(0.8) translateY(10px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0 5px;
+  position: relative;
+  filter: blur(2px);
+  /* O flex será definido dinamicamente pelo JavaScript */
+}
+
+.profissional-card.active {
+  opacity: 1;
+  visibility: visible; /* Torna visível quando ativo */
+  transform: scale(1) translateY(0);
+  box-shadow: 0 20px 50px rgba(102, 126, 234, 0.15);
+  z-index: 2;
+  filter: blur(0);
+}
+
+.profissional-card.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important; /* Force invisibilidade */
+  transform: scale(0.7) translateY(15px);
+  pointer-events: none;
+  filter: blur(3px);
+  z-index: -1; /* Coloca atrás de tudo */
+}
+
+.profissional-foto {
+  margin-bottom: 20px;
+}
+
+.profissional-foto img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #667eea;
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.profissional-info h3 {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 1.4rem;
+}
+
+.profissional-especialidade {
+  color: #667eea;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 1.1rem;
+}
+
+.profissional-registro {
+  color: #7f8c8d;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.profissional-contato {
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.profissional-especialidades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tag-especialidade {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profissional-avaliacao {
+  margin-bottom: 20px;
+}
+
+.estrelas {
+  color: #ffd700;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.profissional-avaliacao span {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.profissional-valor {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.profissional-valor .valor {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.profissional-valor .consulta-tipo {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.profissional-indicadores {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px 0;
+}
+
+.indicador {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e1e8ed;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicador.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transform: scale(1.2);
+}
+
+.indicador:hover {
+  background: #667eea;
+  transform: scale(1.1);
+}
+
+/* Navegação das etapas */
+.agenda-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.agenda-navigation .btn {
+  flex: 1;
+  max-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .agenda-navigation {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .agenda-navigation .btn {
+    max-width: 100%;
+  }
+  
+  .profissionais-carrossel {
+    margin: 20px auto;
+    padding: 0 30px;
+  }
+  
+  .carrossel-prev,
+  .carrossel-next {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .carrossel-prev {
+    left: -35px;
+  }
+  
+  .carrossel-next {
+    right: -35px;
+  }
+  
+  .profissional-card {
+    margin: 0 3px;
+    padding: 20px 15px;
+  }
+  
+  .profissional-card.active {
+    visibility: visible;
+    transform: scale(1) translateY(0);
+  }
+  
+  .profissional-card.hidden {
+    visibility: hidden;
+    transform: scale(0.8) translateY(8px);
+  }
+  
+  .profissional-foto img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .profissional-especialidades {
+    gap: 5px;
+  }
+  
+  .tag-especialidade {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
+
+/* Calendário */
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.arrow-nav {
+  font-size: 24px;
+  cursor: pointer;
+  color: #667eea;
+  padding: 10px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.arrow-nav:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.calendar th,
+.calendar td {
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #e1e8ed;
+}
+
+.calendar th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.calendar td {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.calendar td.available-day:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+.calendar td.selected-day {
+  background: #667eea;
+  color: white;
+}
+
+.calendar td.unavailable-day {
+  background: #f8f9fa;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.calendar td.past-day {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Horários */
+.data-selecionada {
+  font-size: 18px;
+  color: #667eea;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.horario-btn {
+  padding: 15px;
+  border: 2px solid #e1e8ed;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.horario-btn:hover {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.horario-btn.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.horario-btn.unavailable {
+  background: #f8f9fa;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Formulário de informações */
+.agenda-descricao {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.form-grid-agenda {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.form-group-agenda {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-agenda.full-width-textarea {
+  grid-column: 1 / -1;
+}
+
+.form-group-agenda label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Multi-select */
+.multi-select-container {
+  position: relative;
+}
+
+.multi-select-display {
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.multi-select-display.active {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.multi-select-placeholder {
+  color: #999;
+  font-size: 14px;
+}
+
+.multi-select-tag {
+  background: #667eea;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.remove-tag {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.multi-select-dropdown {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  transition: all 0.3s ease;
+}
+
+.avatar-upload-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+}
+
+.multi-select-dropdown.active {
+  display: block;
+}
+
+.multi-select-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.multi-select-option:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.multi-select-option.selected {
+  background: #667eea;
+  color: white;
+}
+
+/* Ações da agenda */
+.agenda-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.btn-proximo,
+.btn-voltar,
+.btn-confirmar-agendamento {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-proximo,
+.btn-confirmar-agendamento {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-voltar {
+  background: #f8f9fa;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+/* Histórico */
+.historico-page-wrapper {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 40px;
+  margin: 20px auto;
+}
+
+.historico-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.historico-header h1 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.historico-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.historico-search-bar {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  align-items: end;
+}
+
+.form-group-historico {
+  flex: 1;
+}
+
+.form-group-historico label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.btn-pesquisar-historico {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.historico-table-container {
+  overflow-x: auto;
+}
+
+.historico-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.historico-table th,
+.historico-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.historico-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.historico-table tr:hover {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+/* Planos do paciente */
+.plano-paciente-wrapper {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 40px;
+  margin: 20px auto;
+}
+
+.plano-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.planos-disponiveis-header {
+  margin-top: 60px;
+}
+
+.current-plan-display {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 40px;
+  border: 2px solid #667eea;
+}
+
+.current-plan-display h2 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.current-plan-display p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.btn-detalhes-plano-atual {
+  background: #667eea;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.planos-grid-paciente {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.plano-card-paciente {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid #e1e8ed;
+}
+
+.plano-card-paciente:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.plano-card-paciente.plano-atual-destaque {
+  border-color: #667eea;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.plano-card-paciente.placeholder {
+  visibility: hidden;
+}
+
+.etiqueta-desconto-paciente {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.plano-nome {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin: 15px 0;
+}
+
+.descricao-plano {
+  color: #666;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.btn-saiba-mais-paciente {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+/* Modais do paciente */
+.modal-plano-paciente {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+}
+
+.modal-plano-paciente.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-conteudo-paciente {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: modalSlideIn 0.3s ease;
+}
+
+.modal-fechar-paciente {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}
+
+.btn-assinar-paciente {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 30px;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+/* Ajuda/Suporte */
+.ajuda-page-wrapper {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 40px;
+  margin: 20px auto;
+}
+
+.ajuda-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.search-faq-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+
+.search-faq-container input {
+  flex: 1;
+}
+
+.search-faq-button {
+  padding: 12px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border: 1px solid #e1e8ed;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+/* Melhorias para o perfil do paciente */
+.perfil-form-spacing .form-row {
+  margin-bottom: 35px;
+}
+
+.perfil-form-spacing .form-group {
+  margin-bottom: 20px;
+}
+
+.form-actions-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.btn-salvar-perfil {
+  padding: 15px 40px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Avatar do paciente */
+.avatar-display-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.avatar-display-container:hover {
+  border-color: rgba(255,255,255,0.5);
+  transform: scale(1.05);
+}
+
+.perfil-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  font-size: 3rem;
+  color: white;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-upload-btn-below {
+  padding: 12px 20px;
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #667eea;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.avatar-upload-btn-below:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.avatar-upload-input {
+  display: none;
+}
+
+/* Modal de senha do paciente */
+.modal-senha {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+}
+
+.modal-senha.ativo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-senha-conteudo {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-senha-fechar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}
+
+.form-senha {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group-senha {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-senha label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.senha-requisitos {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.senha-requisitos h4 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.senha-requisitos ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.senha-requisitos li {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.btn-salvar-senha-paciente {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-salvar-senha-paciente:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 20px;
+  background: #f8f9fa;
+  border: none;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #2c3e50;
+}
+
+.faq-question:hover {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: white;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 200px;
+}
+
+.faq-answer p {
+  padding: 20px;
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Arquivos do paciente */
+.arquivos-paciente-wrapper {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 40px;
+  margin: 20px auto;
+}
+
+.arquivos-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.filtros-arquivos-paciente {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  align-items: end;
+}
+
+.filtro-grupo {
+  flex: 1;
+}
+
+.filtro-grupo label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.input-filtro {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+}
+
+.btn-filtrar {
+  padding: 12px 24px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.arquivos-paciente-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.arquivo-paciente-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 3px solid rgba(255,255,255,0.3);
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e1e8ed;
+  transition: all 0.3s ease;
+}
+
+.arquivo-paciente-item:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.arquivo-icon-grande {
+  font-size: 2rem;
+  width: 60px;
+  text-align: center;
+}
+
+.arquivo-detalhes {
+  flex: 1;
+}
+
+.arquivo-detalhes h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.arquivo-detalhes p {
+  color: #666;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.arquivo-acoes-paciente {
+  display: flex;
+  gap: 10px;
+}
+
+.arquivos-vazio {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.vazio-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .main-content,
+  .main-content-wrapper {
+    padding: 20px 15px;
+  }
+  
+  .feature-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .historico-search-bar {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .agenda-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-grid-agenda {
+    grid-template-columns: 1fr;
+  }
+  
+  .planos-grid-paciente {
+    grid-template-columns: 1fr;
+  }
+  
+  .filtros-arquivos-paciente {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .arquivo-paciente-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .arquivo-acoes-paciente {
+    justify-content: center;
+  }
+}
+
+/* Estilos para sistema de abas */
+.tabs-container {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.tabs-nav {
+  display: flex;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 20px;
+  background: #f8f9fa;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+  background: #e9ecef;
+  color: #2c3e50;
+}
+
+.tab-btn.active {
+  background: white;
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+
+.tab-content {
+  padding: 30px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Estilos para seção de arquivos */
+.arquivos-section {
+  min-height: 400px;
+}
+
+.arquivos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.arquivo-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.arquivo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.arquivo-info h4 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.arquivo-info p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.arquivo-acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.arquivo-acoes .btn-mini {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.arquivo-acoes .btn-mini:first-child {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.arquivo-acoes .btn-mini:first-child:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.arquivo-acoes .btn-mini:last-child {
+  background: #f8f9fa;
+  color: #667eea;
+  border: 1px solid #667eea;
+}
+
+.arquivo-acoes .btn-mini:last-child:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+/* Responsividade para abas */
+@media (max-width: 768px) {
+  .tabs-nav {
+    flex-direction: column;
+  }
+  
+  .tab-btn {
+    border-bottom: 1px solid #e9ecef;
+    border-right: none;
+  }
+  
+  .tab-btn.active {
+    border-bottom-color: #667eea;
+    border-right: none;
+  }
+  
+  .arquivos-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Modal de detalhes do histórico */
+.modal-detalhes-historico {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.modal-detalhes-historico.ativo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-detalhes-conteudo {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-detalhes-fechar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.modal-detalhes-fechar:hover {
+  color: #667eea;
+}
+
+.modal-detalhes-titulo {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.detalhes-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.detalhes-campo {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.detalhes-campo-completo {
+  grid-column: 1 / -1;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.detalhes-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.detalhes-valor {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.detalhes-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-agendado {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-realizado {
+  background-color: #e8f5e8;
+  color: #388e3c;
+}
+
+.status-cancelado {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.detalhes-acoes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-modal-acao {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-fechar-modal {
+  background: #f8f9fa;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.btn-fechar-modal:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Responsividade para modal de detalhes */
+@media (max-width: 768px) {
+  .modal-detalhes-conteudo {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+  
+  .detalhes-info {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .modal-detalhes-titulo {
+    font-size: 1.5rem;
+  }
+  
+  .detalhes-acoes {
+    flex-direction: column;
+  }
+}
+
+/* Feedback messages para agendamentos */
+.feedback-message {
+  margin-top: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  animation: slideDown 0.3s ease-out;
+}
+
+.feedback-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.feedback-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.feedback-message.loading {
+  background-color: #e7f3ff;
+  color: #004085;
+  border: 1px solid #b3d7ff;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

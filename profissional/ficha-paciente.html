@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha do Paciente - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+</head>
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Camila Emerim</span></h2>
+        </div>
+        <div class="header-right">
+            <button class="btn btn-voltar" onclick="history.back()">← Voltar</button>
+            <button class="btn-logout" id="logout-btn">Sair</button>
+        </div>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item">📊 Dashboard</a></li>
+                    <li><a href="agendamentos.html" class="nav-item">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item active">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="ficha-header">
+                <div class="paciente-avatar-grande">👤</div>
+                <div class="paciente-info-principal">
+                    <h1 id="nome-paciente">Ana Costa</h1>
+                    <p id="idade-paciente">28 anos</p>
+                    <p id="email-paciente">📧 ana.costa@email.com</p>
+                    <p id="telefone-paciente">📞 (11) 99999-9999</p>
+                </div>
+                <div class="ficha-acoes">
+                    <button class="btn btn-primario" onclick="abrirModalAgendamento()">Agendar Consulta</button>
+                    <button class="btn btn-secundario" onclick="abrirModalNovaConsulta()">Nova Consulta</button>
+                    <button class="btn btn-terciario" onclick="abrirModalEdicao()">Editar Dados</button>
+                </div>
+            </div>
+
+            <div class="ficha-tabs">
+                <button class="tab-btn active" onclick="mostrarTab('dados-pessoais', this)">Dados Pessoais</button>
+                <button class="tab-btn" onclick="mostrarTab('historico-clinico', this)">Histórico Clínico</button>
+                <button class="tab-btn" onclick="mostrarTab('consultas-realizadas', this)">Consultas</button>
+                <button class="tab-btn" onclick="mostrarTab('arquivos-compartilhados', this)">Arquivos</button>
+            </div>
+
+            <div class="ficha-conteudo">
+                <div id="dados-pessoais" class="tab-content active">
+                    <div class="dados-grid">
+                        <!-- Dados serão preenchidos dinamicamente pelo JavaScript -->
+                    </div>
+                </div>
+
+                <div id="historico-clinico" class="tab-content">
+                    <div class="historico-clinico-grid">
+                        <!-- Dados clínicos serão preenchidos dinamicamente pelo JavaScript -->
+                    </div>
+                </div>
+
+                <div id="consultas-realizadas" class="tab-content">
+                    <div class="consultas-lista">
+                        <!-- Lista de consultas será preenchida dinamicamente pelo JavaScript -->
+                    </div>
+                </div>
+
+                <div id="arquivos-compartilhados" class="tab-content">
+                    <div class="arquivos-lista">
+                        <!-- Lista de arquivos será preenchida dinamicamente pelo JavaScript -->
+                    </div>
+                </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para edição de dados do paciente -->
+    <div id="modal-editar-paciente" class="modal-profissional">
+        <div class="modal-conteudo-profissional modal-edicao-paciente">
+            <button class="modal-fechar" onclick="fecharModalEdicao()">&times;</button>
+            <h2>Editar Dados do Paciente</h2>
+            
+            <div class="modal-tabs">
+                <button class="modal-tab-btn active" onclick="mostrarTabModal('dados-basicos-modal')">Dados Básicos</button>
+                <button class="modal-tab-btn" onclick="mostrarTabModal('clinico-modal')">Histórico Clínico</button>
+            </div>
+
+            <form id="form-editar-paciente">
+                <div id="dados-basicos-modal" class="modal-tab-content active">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-nome-completo">Nome Completo*</label>
+                            <input type="text" id="edit-nome-completo" name="nome-completo" value="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-data-nascimento">Data de Nascimento*</label>
+                            <input type="date" id="edit-data-nascimento" name="data-nascimento" value="" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-cpf">CPF*</label>
+                            <input type="text" id="edit-cpf" name="cpf" value="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-genero">Gênero</label>
+                            <select id="edit-genero" name="genero">
+                                <option value="F">Feminino</option>
+                                <option value="M">Masculino</option>
+                                <option value="O">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-email">E-mail*</label>
+                            <input type="email" id="edit-email" name="email" value="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-telefone">Telefone*</label>
+                            <input type="tel" id="edit-telefone" name="telefone" value="" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-profissao">Profissão</label>
+                            <input type="text" id="edit-profissao" name="profissao" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-rua">Rua</label>
+                            <input type="text" id="edit-rua" name="rua" value="">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-numero">Número</label>
+                            <input type="text" id="edit-numero" name="numero" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-bairro">Bairro</label>
+                            <input type="text" id="edit-bairro" name="bairro" value="">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-cidade">Cidade</label>
+                            <input type="text" id="edit-cidade" name="cidade" value="">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="clinico-modal" class="modal-tab-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-peso">Peso Atual (kg)*</label>
+                            <input type="number" id="edit-peso" name="peso" value="" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-altura">Altura (m)*</label>
+                            <input type="number" id="edit-altura" name="altura" value="" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-imc">IMC (calculado automaticamente)</label>
+                            <input type="text" id="edit-imc" name="imc" value="" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-intolerancias">Intolerâncias</label>
+                            <input type="text" id="edit-intolerancias" name="intolerancias" value="" placeholder="Separe por vírgulas">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-alergias">Alergias</label>
+                            <input type="text" id="edit-alergias" name="alergias" value="" placeholder="Separe por vírgulas">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-comorbidades">Comorbidades</label>
+                            <input type="text" id="edit-comorbidades" name="comorbidades" value="" placeholder="Separe por vírgulas">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-medicamentos">Medicamentos em Uso</label>
+                            <input type="text" id="edit-medicamentos" name="medicamentos" value="" placeholder="Separe por vírgulas">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="edit-observacoes-clinicas">Observações Clínicas</label>
+                            <textarea id="edit-observacoes-clinicas" name="observacoes-clinicas" rows="4" placeholder="Informações adicionais sobre o histórico clínico do paciente..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem de feedback para edição de dados -->
+                <div id="modal-edicao-message" class="modal-message" style="display: none;"></div>
+
+                <div class="modal-acoes-edicao">
+                    <button type="button" class="btn btn-terciario" onclick="fecharModalEdicao()">Cancelar</button>
+                    <button type="submit" class="btn btn-primario">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Agendamento -->
+    <div id="modal-agendamento" class="modal-profissional" style="display: none;">
+        <div class="modal-conteudo-profissional">
+            <button class="modal-fechar" onclick="fecharModalAgendamento()">&times;</button>
+            <h2>Agendar Nova Consulta</h2>
+            <p>Selecione a data e horário para a consulta de <strong id="nome-paciente-modal">Ana Costa</strong></p>
+            
+            <div class="agendamento-steps">
+                <!-- Mensagem de feedback -->
+                <div id="modal-agendamento-message" class="modal-message" style="display: none;"></div>
+                
+                <!-- Etapa 1: Seleção de Data -->
+                <div id="etapa-data-modal" class="agenda-step-modal active">
+                    <h3>Escolha a Data</h3>
+                    <div class="calendar-nav">
+                        <span id="prevMonth-modal" class="arrow-nav">‹</span>
+                        <span id="month-year-modal">Janeiro 2025</span>
+                        <span id="nextMonth-modal" class="arrow-nav">›</span>
+                    </div>
+                    <table class="calendar-modal">
+                        <thead>
+                            <tr>
+                                <th>Dom</th>
+                                <th>Seg</th>
+                                <th>Ter</th>
+                                <th>Qua</th>
+                                <th>Qui</th>
+                                <th>Sex</th>
+                                <th>Sab</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-days-modal"></tbody>
+                    </table>
+                    <div class="modal-acoes">
+                        <button class="btn btn-primario" onclick="proximaEtapaModal()" id="btn-proxima-data" disabled>Próximo</button>
+                    </div>
+                </div>
+
+                <!-- Etapa 2: Seleção de Horário -->
+                <div id="etapa-horario-modal" class="agenda-step-modal" style="display: none;">
+                    <h3>Escolha o Horário</h3>
+                    <p class="data-selecionada-modal">Data selecionada aparecerá aqui</p>
+                    <div class="horarios-grid-modal">
+                        <button class="horario-btn-modal">08:00</button>
+                        <button class="horario-btn-modal">08:30</button>
+                        <button class="horario-btn-modal">09:00</button>
+                        <button class="horario-btn-modal">09:30</button>
+                        <button class="horario-btn-modal">10:00</button>
+                        <button class="horario-btn-modal">10:30</button>
+                        <button class="horario-btn-modal">11:00</button>
+                        <button class="horario-btn-modal">11:30</button>
+                        <button class="horario-btn-modal">13:00</button>
+                        <button class="horario-btn-modal">13:30</button>
+                        <button class="horario-btn-modal">14:00</button>
+                        <button class="horario-btn-modal">14:30</button>
+                        <button class="horario-btn-modal">15:00</button>
+                        <button class="horario-btn-modal">15:30</button>
+                        <button class="horario-btn-modal">16:00</button>
+                        <button class="horario-btn-modal">16:30</button>
+                        <button class="horario-btn-modal">17:00</button>
+                        <button class="horario-btn-modal">17:30</button>
+                    </div>
+                    <div class="modal-acoes">
+                        <button class="btn btn-secundario" onclick="voltarEtapaModal()">Voltar</button>
+                        <button class="btn btn-primario" onclick="confirmarAgendamento()" id="btn-confirmar-agendamento" disabled>Confirmar Agendamento</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Consulta -->
+    <div id="modal-nova-consulta" class="modal-profissional">
+        <div class="modal-conteudo-profissional">
+            <button class="modal-fechar" onclick="fecharModalNovaConsulta()">&times;</button>
+            <h2>Registrar Nova Consulta</h2>
+            <p>Cadastre os dados e informações da consulta realizada para <span id="nome-paciente-consulta">Ana Costa</span>.</p>
+            
+            <form id="form-nova-consulta" class="form-nova-consulta">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="data-consulta">Data da Consulta *</label>
+                        <input type="date" id="data-consulta" name="data-consulta" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horario-consulta">Horário *</label>
+                        <input type="time" id="horario-consulta" name="horario-consulta" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipo-consulta">Tipo de Consulta *</label>
+                        <select id="tipo-consulta" name="tipo-consulta" class="form-input" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="Consulta Nutricional">Consulta Nutricional</option>
+                            <option value="Sessão Personal Trainer">Sessão Personal Trainer</option>
+                            <option value="Avaliação Física">Avaliação Física</option>
+                            <option value="Consulta de Retorno">Consulta de Retorno</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="duracao-consulta">Duração (minutos)</label>
+                        <input type="number" id="duracao-consulta" name="duracao-consulta" class="form-input" min="15" max="180" step="15" value="60">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="peso-atual">Peso Atual (kg) *</label>
+                        <input type="number" id="peso-atual" name="peso-atual" class="form-input" step="0.1" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="altura-atual">Altura (m) *</label>
+                        <input type="number" id="altura-atual" name="altura-atual" class="form-input" step="0.01" min="0" max="3" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bf-atual">% Gordura Corporal</label>
+                        <input type="number" id="bf-atual" name="bf-atual" class="form-input" step="0.1" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="imc-calculado">IMC (calculado)</label>
+                        <input type="text" id="imc-calculado" name="imc-calculado" class="form-input" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="objetivo-consulta">Objetivo Principal</label>
+                        <select id="objetivo-consulta" name="objetivo-consulta" class="form-input">
+                            <option value="">Selecione o objetivo</option>
+                            <option value="Perda de peso">Perda de Peso</option>
+                            <option value="Ganho de massa muscular">Ganho de Massa Muscular</option>
+                            <option value="Manutenção">Manutenção</option>
+                            <option value="Melhora de performance">Melhora de Performance</option>
+                            <option value="Saúde geral">Saúde Geral</option>
+                            <option value="Reabilitação">Reabilitação</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="queixas-principais">Queixas Principais</label>
+                        <textarea id="queixas-principais" name="queixas-principais" class="form-input" rows="3" 
+                                placeholder="Descreva as principais queixas ou demandas do paciente..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="avaliacoes-realizadas">Avaliações Realizadas</label>
+                        <textarea id="avaliacoes-realizadas" name="avaliacoes-realizadas" class="form-input" rows="3" 
+                                placeholder="Descreva as avaliações físicas, exames ou testes realizados..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="orientacoes-dadas">Orientações e Recomendações</label>
+                        <textarea id="orientacoes-dadas" name="orientacoes-dadas" class="form-input" rows="4" 
+                                placeholder="Descreva as orientações nutricionais, exercícios prescritos, recomendações gerais..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="observacoes-consulta">Observações Adicionais</label>
+                        <textarea id="observacoes-consulta" name="observacoes-consulta" class="form-input" rows="3" 
+                                placeholder="Observações gerais, evolução do paciente, próximos passos..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="proxima-consulta">Data Sugerida para Retorno</label>
+                        <input type="date" id="proxima-consulta" name="proxima-consulta" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="status-consulta">Status da Consulta</label>
+                        <select id="status-consulta" name="status-consulta" class="form-input">
+                            <option value="realizada">Realizada</option>
+                            <option value="cancelada">Cancelada</option>
+                            <option value="reagendada">Reagendada</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Mensagem de feedback para nova consulta -->
+                <div id="modal-nova-consulta-message" class="modal-message" style="display: none;"></div>
+                
+                <div class="modal-acoes">
+                    <button type="button" class="btn btn-secundario" onclick="fecharModalNovaConsulta()">Cancelar</button>
+                    <button type="submit" class="btn btn-primario">Salvar Consulta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('profissional_logado');
+            window.location.href = '../index.html';
+        });
+
+        // Carregar nome do profissional
+        document.addEventListener('DOMContentLoaded', function() {
+            const nomeProfissional = localStorage.getItem('profissional_nome') || 'Profissional';
+            document.getElementById('nome-profissional').textContent = nomeProfissional;
+            
+        });
+
+        // Função para mostrar tabs
+        function mostrarTab(tabId) {
+            // Esconder todas as tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remover classe active de todos os botões
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar tab selecionada
+            document.getElementById(tabId).classList.add('active');
+            
+            // Adicionar classe active ao botão clicado
+            event.target.classList.add('active');
+        }
+
+        // Função para abrir modal de edição
+        function abrirModalEdicao() {
+            document.getElementById('modal-editar-paciente').style.display = 'flex';
+            calcularIMC(); // Calcular IMC inicial
+            clearEdicaoMessage(); // Limpar mensagens anteriores
+        }
+
+        // Função para fechar modal de edição
+        function fecharModalEdicao() {
+            document.getElementById('modal-editar-paciente').style.display = 'none';
+            clearEdicaoMessage(); // Limpar mensagens
+            
+            // Restaurar texto original do botão
+            const submitBtn = document.querySelector('#form-editar-paciente button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Salvar Alterações';
+            }
+        }
+
+        // Função para mostrar tabs do modal
+        function mostrarTabModal(tabId) {
+            // Esconder todas as tabs do modal
+            document.querySelectorAll('.modal-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remover classe active de todos os botões do modal
+            document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar tab selecionada
+            document.getElementById(tabId).classList.add('active');
+            
+            // Adicionar classe active ao botão clicado
+            event.target.classList.add('active');
+        }
+
+        // Função para calcular IMC automaticamente
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('edit-peso').value);
+            const altura = parseFloat(document.getElementById('edit-altura').value);
+            
+            if (peso && altura) {
+                const imc = peso / (altura * altura);
+                let classificacao = '';
+                
+                if (imc < 18.5) classificacao = 'Abaixo do peso';
+                else if (imc < 25) classificacao = 'Normal';
+                else if (imc < 30) classificacao = 'Sobrepeso';
+                else classificacao = 'Obesidade';
+                
+                document.getElementById('edit-imc').value = `${imc.toFixed(1)} (${classificacao})`;
+            }
+        }
+
+        // Adicionar listeners para calcular IMC automaticamente
+        document.getElementById('edit-peso').addEventListener('input', calcularIMC);
+        document.getElementById('edit-altura').addEventListener('input', calcularIMC);
+
+        // Função para calcular IMC no formulário de nova consulta
+        function calcularIMCNovaConsulta() {
+            const peso = parseFloat(document.getElementById('peso-atual').value);
+            const altura = parseFloat(document.getElementById('altura-atual').value);
+            
+            if (peso && altura) {
+                const imc = peso / (altura * altura);
+                let classificacao = '';
+                
+                if (imc < 18.5) classificacao = 'Abaixo do peso';
+                else if (imc < 25) classificacao = 'Normal';
+                else if (imc < 30) classificacao = 'Sobrepeso';
+                else classificacao = 'Obesidade';
+                
+                document.getElementById('imc-calculado').value = `${imc.toFixed(1)} (${classificacao})`;
+            } else {
+                document.getElementById('imc-calculado').value = '';
+            }
+        }
+
+        // Adicionar listeners para calcular IMC no formulário de nova consulta
+        document.addEventListener('DOMContentLoaded', function() {
+            const pesoInput = document.getElementById('peso-atual');
+            const alturaInput = document.getElementById('altura-atual');
+            
+            if (pesoInput) pesoInput.addEventListener('input', calcularIMCNovaConsulta);
+            if (alturaInput) alturaInput.addEventListener('input', calcularIMCNovaConsulta);
+        });
+
+        // ===== SISTEMA DE MENSAGENS PARA MODAL DE EDIÇÃO =====
+        
+        // Função para mostrar mensagem no modal de edição
+        function showEdicaoMessage(message, type = 'info') {
+            const messageDiv = document.getElementById('modal-edicao-message');
+            
+            messageDiv.textContent = message;
+            messageDiv.className = `modal-message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Auto-esconder mensagens de sucesso após 3 segundos
+            if (type === 'success') {
+                setTimeout(() => {
+                    clearEdicaoMessage();
+                }, 3000);
+            }
+        }
+
+        // Função para limpar mensagem do modal de edição
+        function clearEdicaoMessage() {
+            const messageDiv = document.getElementById('modal-edicao-message');
+            if (messageDiv) {
+                messageDiv.style.display = 'none';
+                messageDiv.textContent = '';
+            }
+        }
+
+        // Submissão do formulário de edição
+        document.getElementById('form-editar-paciente').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            clearEdicaoMessage();
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Salvando...';
+            showEdicaoMessage('💾 Salvando dados do paciente...', 'info');
+            try {
+                // Coletar dados do formulário
+                const form = this;
+
+                const dados = {
+                    name: form['edit-nome-completo'].value,
+                    birthDate: form['edit-data-nascimento'].value,
+                    cpf: form['edit-cpf'].value,
+                    gender: form['edit-genero'].value,
+                    email: form['edit-email'].value,
+                    phone: form['edit-telefone'].value,
+                    profissao: form['edit-profissao'].value,
+                    alergias: form['edit-alergias'].value.trim() || '',
+                    medicamentos: form['edit-medicamentos'].value.trim() || '',
+                    comorbidades: form['edit-comorbidades'].value.trim() || '',
+                    intolerancias: form['edit-intolerancias'].value.trim() || '',
+                    endereco_rua: form['edit-rua'].value.trim() || '',
+                    endereco_numero: form['edit-numero'].value?.trim()?.toString() || '',
+                    endereco_cidade: form['edit-cidade'].value.trim() || '',
+                    endereco_bairro: form['edit-bairro'].value.trim() || '',
+                    obs: form['edit-observacoes-clinicas'].value.trim() || '',
+                    peso: Number(form['edit-peso'].value || "0"),
+                    altura: Number(form['edit-altura'].value || "0"),
+                };
+                // Chamar API para atualizar
+                if (!window.pacienteAtual || !window.pacienteAtual.id) throw new Error('Paciente não carregado');
+                const atualizado = await userAPI.update(window.pacienteAtual.id, dados);
+                // Atualizar pacienteAtual global
+                window.pacienteAtual = atualizado;
+                // Atualizar interface
+                if (typeof renderizarDadosPaciente === 'function') renderizarDadosPaciente();
+                showEdicaoMessage('✅ Dados do paciente atualizados com sucesso!', 'success');
+                setTimeout(() => {
+                    fecharModalEdicao();
+                }, 2000);
+            } catch (error) {
+                console.error('Erro ao salvar dados:', error);
+                showEdicaoMessage('❌ Erro ao salvar dados. Tente novamente.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Salvar Alterações';
+            }
+        });
+
+        // Função para mostrar mensagem personalizada (floating)
+        function showCustomMessage(message, type = 'success') {
+            // Criar elemento da mensagem
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `custom-message ${type}`;
+            messageDiv.textContent = message;
+            
+            // Adicionar estilos inline
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                font-weight: 500;
+                font-size: 14px;
+                z-index: 10000;
+                min-width: 300px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                transform: translateX(400px);
+                transition: all 0.3s ease;
+            `;
+            
+            // Definir cores baseadas no tipo
+            if (type === 'success') {
+                messageDiv.style.background = '#d4edda';
+                messageDiv.style.color = '#155724';
+                messageDiv.style.border = '1px solid #c3e6cb';
+            } else if (type === 'error') {
+                messageDiv.style.background = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+            }
+            
+            // Adicionar ao body
+            document.body.appendChild(messageDiv);
+            
+            // Animar entrada
+            setTimeout(() => {
+                messageDiv.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remover após 3 segundos
+            setTimeout(() => {
+                messageDiv.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Função para atualizar os dados na interface após edição
+        function atualizarDadosInterface() {
+            // Atualizar dados pessoais
+            const nomeCompleto = document.getElementById('edit-nome-completo').value;
+            const email = document.getElementById('edit-email').value;
+            const telefone = document.getElementById('edit-telefone').value;
+            
+            // Atualizar header
+            document.getElementById('nome-paciente').textContent = nomeCompleto.split(' ')[0] + ' ' + nomeCompleto.split(' ')[nomeCompleto.split(' ').length - 1];
+            document.getElementById('email-paciente').textContent = '📧 ' + email;
+            document.getElementById('telefone-paciente').textContent = '📞 ' + telefone;
+            
+            // Atualizar dados na aba de dados pessoais
+            const dadosGrid = document.querySelector('#dados-pessoais .dados-grid');
+            if (dadosGrid) dadosGrid.innerHTML = `
+                <div class="dado-item">
+                    <strong>Nome Completo:</strong>
+                    <span>${document.getElementById('edit-nome-completo').value}</span>
+                </div>
+                <div class="dado-item">
+                    <strong>Data de Nascimento:</strong>
+                    <span>${new Date(document.getElementById('edit-data-nascimento').value).toLocaleDateString('pt-BR')}</span>
+                </div>
+                <div class="dado-item">
+                    <strong>CPF:</strong>
+                    <span>${document.getElementById('edit-cpf').value}</span>
+                </div>
+                <div class="dado-item">
+                    <strong>Gênero:</strong>
+                    <span>${document.getElementById('edit-genero').options[document.getElementById('edit-genero').selectedIndex].text}</span>
+                </div>
+                <div class="dado-item">
+                    <strong>Estado Civil:</strong>
+                    <span>${document.getElementById('edit-estado-civil').options[document.getElementById('edit-estado-civil').selectedIndex].text}</span>
+                </div>
+                <div class="dado-item">
+                    <strong>Profissão:</strong>
+                    <span>${document.getElementById('edit-profissao').value}</span>
+                </div>
+                <div class="dado-item">
+                    <strong>Endereço:</strong>
+                    <span>${document.getElementById('edit-endereco').value}</span>
+                </div>
+                <div class="dado-item">
+                    <strong>Plano:</strong>
+                    <span>Nutrição Essencial</span>
+                </div>
+            `;
+            
+            // Atualizar dados na aba de histórico clínico
+            const historicoGrid = document.querySelector('#historico-clinico .historico-clinico-grid');
+            if (historicoGrid) historicoGrid.innerHTML = `
+                <div class="clinico-item">
+                    <strong>Peso Atual:</strong>
+                    <span>${document.getElementById('edit-peso').value}kg</span>
+                </div>
+                <div class="clinico-item">
+                    <strong>Altura:</strong>
+                    <span>${document.getElementById('edit-altura').value}m</span>
+                </div>
+                <div class="clinico-item">
+                    <strong>IMC:</strong>
+                    <span>${document.getElementById('edit-imc').value}</span>
+                </div>
+                <div class="clinico-item">
+                    <strong>Tipo Sanguíneo:</strong>
+                    <span>${document.getElementById('edit-tipo-sanguineo').value || 'Não informado'}</span>
+                </div>
+                <div class="clinico-item">
+                    <strong>Alergias:</strong>
+                    <span>${document.getElementById('edit-alergias').value || 'Nenhuma'}</span>
+                </div>
+                <div class="clinico-item">
+                    <strong>Comorbidades:</strong>
+                    <span>${document.getElementById('edit-comorbidades').value || 'Nenhuma'}</span>
+                </div>
+                <div class="clinico-item">
+                    <strong>Medicamentos:</strong>
+                    <span>${document.getElementById('edit-medicamentos').value || 'Nenhum'}</span>
+                </div>
+                <div class="clinico-item">
+                    <strong>Objetivo:</strong>
+                    <span>${document.getElementById('edit-objetivo').value || 'Não definido'}</span>
+                </div>
+            `;
+        }
+
+        // Fechar modal clicando fora
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal-editar-paciente');
+            if (event.target === modal) {
+                fecharModalEdicao();
+            }
+        });
+
+        // ===== MODAL DE AGENDAMENTO =====
+        let selectedDateModal = null;
+        let selectedTimeModal = null;
+        let currentMonthModal = new Date().getMonth();
+        let currentYearModal = new Date().getFullYear();
+
+        // Função para abrir modal de agendamento
+        function abrirModalAgendamento() {
+            document.getElementById('modal-agendamento').style.display = 'flex';
+            document.getElementById('nome-paciente-modal').textContent = document.getElementById('nome-paciente').textContent;
+            renderCalendarModal(currentYearModal, currentMonthModal);
+            resetModalState();
+            // Limpar mensagens anteriores
+            clearAgendamentoMessage();
+        }
+
+        // Função para fechar modal de agendamento
+        function fecharModalAgendamento() {
+            document.getElementById('modal-agendamento').style.display = 'none';
+            resetModalState();
+        }
+
+        // Reset do estado do modal
+        function resetModalState() {
+            selectedDateModal = null;
+            selectedTimeModal = null;
+            document.getElementById('etapa-data-modal').style.display = 'block';
+            document.getElementById('etapa-horario-modal').style.display = 'none';
+            document.getElementById('btn-proxima-data').disabled = true;
+            document.getElementById('btn-confirmar-agendamento').disabled = true;
+            
+            // Restaurar texto original do botão
+            const btnConfirmar = document.getElementById('btn-confirmar-agendamento');
+            btnConfirmar.textContent = 'Confirmar Agendamento';
+            btnConfirmar.disabled = true;
+            
+            // Limpar seleções
+            document.querySelectorAll('.selected-day-modal').forEach(d => d.classList.remove('selected-day-modal'));
+            document.querySelectorAll('.horario-btn-modal.active').forEach(h => h.classList.remove('active'));
+            
+            // Limpar mensagens
+            clearAgendamentoMessage();
+        }
+
+        // Renderizar calendário do modal
+        function renderCalendarModal(year, month) {
+            const calendarDays = document.getElementById('calendar-days-modal');
+            const monthYearDisplay = document.getElementById('month-year-modal');
+            
+            calendarDays.innerHTML = '';
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const numDays = lastDay.getDate();
+            const startDay = firstDay.getDay();
+            
+            monthYearDisplay.textContent = new Date(year, month).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+            
+            let currentRow = document.createElement('tr');
+            let dayCount = 0;
+            
+            // Adicionar células vazias no início
+            for (let i = 0; i < startDay; i++) {
+                const emptyTd = document.createElement('td');
+                currentRow.appendChild(emptyTd);
+                dayCount++;
+            }
+            
+            // Adicionar os dias do mês
+            for (let day = 1; day <= numDays; day++) {
+                const dayTd = document.createElement('td');
+                dayTd.textContent = day;
+                
+                const currentDate = new Date();
+                const dayDate = new Date(year, month, day);
+                
+                if (dayDate < currentDate.setHours(0,0,0,0)) {
+                    dayTd.classList.add('past-day-modal');
+                } else if (day % 7 === 0 || day % 13 === 0) { // Simular dias indisponíveis
+                    dayTd.classList.add('unavailable-day-modal');
+                } else {
+                    dayTd.classList.add('available-day-modal');
+                    dayTd.addEventListener('click', function() {
+                        // Remove seleção anterior
+                        document.querySelectorAll('.selected-day-modal').forEach(d => d.classList.remove('selected-day-modal'));
+                        this.classList.add('selected-day-modal');
+                        selectedDateModal = dayDate;
+                        document.getElementById('btn-proxima-data').disabled = false;
+                        
+                        // Atualiza a data selecionada para a próxima etapa
+                        const dataSelecionada = document.querySelector('.data-selecionada-modal');
+                        if (dataSelecionada) {
+                            dataSelecionada.textContent = dayDate.toLocaleDateString('pt-BR', { 
+                                weekday: 'long', 
+                                day: 'numeric', 
+                                month: 'long' 
+                            });
+                        }
+                    });
+                }
+                
+                currentRow.appendChild(dayTd);
+                dayCount++;
+                
+                // Se completou uma semana, adiciona a linha e cria uma nova
+                if (dayCount % 7 === 0) {
+                    calendarDays.appendChild(currentRow);
+                    currentRow = document.createElement('tr');
+                }
+            }
+            
+            // Adicionar a última linha se não estiver vazia
+            if (dayCount % 7 !== 0) {
+                while (dayCount % 7 !== 0) {
+                    const emptyTd = document.createElement('td');
+                    currentRow.appendChild(emptyTd);
+                    dayCount++;
+                }
+                calendarDays.appendChild(currentRow);
+            }
+        }
+
+        // Navegação do calendário
+        document.getElementById('prevMonth-modal').addEventListener('click', () => {
+            currentMonthModal--;
+            if (currentMonthModal < 0) {
+                currentMonthModal = 11;
+                currentYearModal--;
+            }
+            renderCalendarModal(currentYearModal, currentMonthModal);
+        });
+
+        document.getElementById('nextMonth-modal').addEventListener('click', () => {
+            currentMonthModal++;
+            if (currentMonthModal > 11) {
+                currentMonthModal = 0;
+                currentYearModal++;
+            }
+            renderCalendarModal(currentYearModal, currentMonthModal);
+        });
+
+        // Próxima etapa (data -> horário)
+        function proximaEtapaModal() {
+            if (selectedDateModal) {
+                document.getElementById('etapa-data-modal').style.display = 'none';
+                document.getElementById('etapa-horario-modal').style.display = 'block';
+                
+                // Simular horários indisponíveis
+                const horariosIndisponiveis = ['09:00', '14:30', '16:00'];
+                document.querySelectorAll('.horario-btn-modal').forEach(btn => {
+                    if (horariosIndisponiveis.includes(btn.textContent)) {
+                        btn.classList.add('unavailable');
+                        btn.disabled = true;
+                    } else {
+                        btn.classList.remove('unavailable');
+                        btn.disabled = false;
+                        btn.addEventListener('click', function() {
+                            if (!this.classList.contains('unavailable')) {
+                                document.querySelectorAll('.horario-btn-modal.active').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                selectedTimeModal = this.textContent;
+                                document.getElementById('btn-confirmar-agendamento').disabled = false;
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        // Voltar etapa (horário -> data)
+        function voltarEtapaModal() {
+            document.getElementById('etapa-horario-modal').style.display = 'none';
+            document.getElementById('etapa-data-modal').style.display = 'block';
+            selectedTimeModal = null;
+            document.getElementById('btn-confirmar-agendamento').disabled = true;
+            document.querySelectorAll('.horario-btn-modal.active').forEach(h => h.classList.remove('active'));
+        }
+
+        // ===== SISTEMA DE MENSAGENS PARA AGENDAMENTO =====
+        
+        // Função para mostrar mensagem no modal de agendamento
+        function showAgendamentoMessage(message, type = 'info') {
+            const messageDiv = document.getElementById('modal-agendamento-message');
+            
+            messageDiv.textContent = message;
+            messageDiv.className = `modal-message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Auto-esconder mensagens de sucesso após 3 segundos
+            if (type === 'success') {
+                setTimeout(() => {
+                    clearAgendamentoMessage();
+                }, 3000);
+            }
+        }
+
+        // Função para limpar mensagem do modal de agendamento
+        function clearAgendamentoMessage() {
+            const messageDiv = document.getElementById('modal-agendamento-message');
+            if (messageDiv) {
+                messageDiv.style.display = 'none';
+                messageDiv.textContent = '';
+            }
+        }
+
+        // Confirmar agendamento
+        async function confirmarAgendamento() {
+            if (!selectedDateModal || !selectedTimeModal) {
+                showAgendamentoMessage('Por favor, selecione data e horário para continuar.', 'error');
+                return;
+            }
+
+            // Limpar mensagens anteriores
+            clearAgendamentoMessage();
+
+            try {
+                // Desabilitar botão para evitar cliques duplos
+                const btnConfirmar = document.getElementById('btn-confirmar-agendamento');
+                btnConfirmar.disabled = true;
+                btnConfirmar.textContent = 'Agendando...';
+
+                // Obter dados do agendamento
+                const dataFormatada = selectedDateModal.toLocaleDateString('pt-BR');
+                const nomePaciente = document.getElementById('nome-paciente').textContent;
+                
+                // Preparar dados para envio à API
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                let profissionalId = userData.id || localStorage.getItem('profissional_id') || '1';
+
+                const agendamentoData = {
+                    paciente_id: pacienteAtual.id,
+                    profissional_id: profissionalId,
+                    data: selectedDateModal.toISOString().split('T')[0], // Format YYYY-MM-DD
+                    hora: selectedTimeModal,
+                    observacoes: `Consulta agendada via ficha do paciente para ${nomePaciente}`,
+                    valor: '0', // Valor padrão ou pode ser configurado
+                    forma_pagamento: 'A definir'
+                };
+
+                console.log('Dados do agendamento:', agendamentoData);
+
+                // Tentar salvar via API
+                await scheduleAPI.create(agendamentoData);
+                
+                // Sucesso - mostrar mensagem personalizada
+                showAgendamentoMessage(
+                    `✅ Consulta agendada com sucesso!\n\nPaciente: ${nomePaciente}\nData: ${dataFormatada}\nHorário: ${selectedTimeModal}`, 
+                    'success'
+                );
+
+                // Aguardar um pouco e fechar modal
+                setTimeout(() => {
+                    fecharModalAgendamento();
+                }, 2500);
+
+            } catch (error) {
+                console.error('Erro ao agendar consulta:', error);
+                
+                let errorMsg = 'Erro ao agendar consulta. Tente novamente.';
+                if (error.message) {
+                    errorMsg = error.message;
+                } else if (error.response?.data?.message) {
+                    errorMsg = error.response.data.message;
+                }
+                
+                showAgendamentoMessage('❌ ' + errorMsg, 'error');
+                
+                // Re-habilitar botão em caso de erro
+                const btnConfirmar = document.getElementById('btn-confirmar-agendamento');
+                btnConfirmar.disabled = false;
+                btnConfirmar.textContent = 'Confirmar Agendamento';
+            }
+        }
+
+        // ===== SISTEMA DE MENSAGENS PARA NOVA CONSULTA =====
+        
+        // Função para mostrar mensagem no modal de nova consulta
+        function showNovaConsultaMessage(message, type = 'info') {
+            const messageDiv = document.getElementById('modal-nova-consulta-message');
+            
+            messageDiv.textContent = message;
+            messageDiv.className = `modal-message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Auto-esconder mensagens de sucesso após 3 segundos
+            if (type === 'success') {
+                setTimeout(() => {
+                    clearNovaConsultaMessage();
+                }, 3000);
+            }
+        }
+
+        // Função para limpar mensagem do modal de nova consulta
+        function clearNovaConsultaMessage() {
+            const messageDiv = document.getElementById('modal-nova-consulta-message');
+            if (messageDiv) {
+                messageDiv.style.display = 'none';
+                messageDiv.textContent = '';
+            }
+        }
+
+        // ===== MODAL DE NOVA CONSULTA =====
+        
+        // Função para abrir modal de nova consulta
+        function abrirModalNovaConsulta() {
+            document.getElementById('modal-nova-consulta').style.display = 'flex';
+            document.getElementById('nome-paciente-consulta').textContent = document.getElementById('nome-paciente').textContent;
+            
+            // Limpar mensagens anteriores
+            clearNovaConsultaMessage();
+            
+            // Preencher data atual
+            const hoje = new Date();
+            document.getElementById('data-consulta').value = hoje.toISOString().split('T')[0];
+            
+            // Preencher horário atual aproximado
+            const agora = new Date();
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(Math.round(agora.getMinutes() / 15) * 15).padStart(2, '0');
+            document.getElementById('horario-consulta').value = `${horas}:${minutos}`;
+            
+            // Preencher peso e altura com dados do último registro (se disponível)
+            const pesoAtual = document.getElementById('edit-peso')?.value;
+            const alturaAtual = document.getElementById('edit-altura')?.value;
+            
+            if (pesoAtual) document.getElementById('peso-atual').value = pesoAtual;
+            if (alturaAtual) document.getElementById('altura-atual').value = alturaAtual;
+            
+            // Calcular IMC se ambos estiverem preenchidos
+            if (pesoAtual && alturaAtual) {
+                calcularIMCNovaConsulta();
+            }
+        }
+
+        // Função para fechar modal de nova consulta
+        function fecharModalNovaConsulta() {
+            document.getElementById('modal-nova-consulta').style.display = 'none';
+            document.getElementById('form-nova-consulta').reset();
+            clearNovaConsultaMessage();
+        }
+
+        // Submissão do formulário de nova consulta
+        document.getElementById('form-nova-consulta').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Limpar mensagens anteriores
+            clearNovaConsultaMessage();
+            
+            try {
+                // Desabilitar botão para evitar cliques duplos
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Salvando...';
+
+                // ETAPA 1: Criar ficha primeiro
+                showNovaConsultaMessage('📝 Criando ficha do paciente...', 'info');
+                
+                // Coletar dados para a ficha
+                const peso = parseFloat(document.getElementById('peso-atual').value);
+                const altura = parseFloat(document.getElementById('altura-atual').value);
+                const imc = (altura && peso) ? peso / (altura * altura) : 0;
+                
+                const fichaData = {
+                    paciente_id: pacienteAtual.id,
+                    data: document.getElementById('data-consulta').value,
+                    peso: peso || 0,
+                    percentual_gordura: parseFloat(document.getElementById('bf-atual').value) || 0,
+                    altura: altura || 0,
+                    imc: parseFloat(imc.toFixed(2)),
+                    observacoes: document.getElementById('observacoes-consulta').value || '',
+                    registro: document.getElementById('avaliacoes-realizadas').value || '',
+                    objetivo_paciente: document.getElementById('objetivo-consulta').value
+                };
+
+                // Validação básica para ficha
+                if (!fichaData.data || fichaData.peso <= 0 || fichaData.altura <= 0) {
+                    throw new Error('Por favor, preencha a data, peso atual e altura para criar a ficha.');
+                }
+
+                console.log('Dados da ficha para API:', fichaData);
+
+                // Criar ficha via API
+                const fichaResponse = await fichaAPI.create(fichaData);
+                console.log('Ficha criada:', fichaResponse);
+                const fichaId = fichaResponse.ficha_id;
+
+                // ETAPA 2: Criar consulta com o ficha_id
+                showNovaConsultaMessage('📋 Registrando consulta...', 'info');
+
+                // Coletar dados do formulário para consulta
+                const consultaData = {
+                    paciente_id: pacienteAtual.id,
+                    ficha_id: fichaId,
+                    data: document.getElementById('data-consulta').value,
+                    hora_inicio: document.getElementById('horario-consulta').value,
+                    descricao: document.getElementById('tipo-consulta').value,
+                    orientacao: document.getElementById('orientacoes-dadas').value,
+                    objetivo_paciente: document.getElementById('objetivo-consulta').value
+                };
+
+                // Calcular hora fim baseado na duração
+                const duracao = document.getElementById('duracao-consulta').value;
+                if (duracao) {
+                    const [horas, minutos] = consultaData.hora_inicio.split(':');
+                    const horaInicio = new Date();
+                    horaInicio.setHours(parseInt(horas), parseInt(minutos), 0, 0);
+                    
+                    const horaFim = new Date(horaInicio.getTime() + (duracao * 60000));
+                    consultaData.hora_fim = String(horaFim.getHours()).padStart(2, '0') + ':' + 
+                                          String(horaFim.getMinutes()).padStart(2, '0');
+                }
+
+                // Obter ID do profissional
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                consultaData.profissional_id = userData.id || localStorage.getItem('profissional_id') || '1';
+
+                // Validação básica para consulta
+                if (!consultaData.data || !consultaData.hora_inicio || !consultaData.descricao) {
+                    throw new Error('Por favor, preencha os campos obrigatórios (Data, Horário e Tipo de Consulta).');
+                }
+
+                console.log('Dados da consulta para API:', consultaData);
+
+                // Salvar consulta via API
+                const consultaSalva = await consultaAPI.create(consultaData);
+                console.log('Consulta salva:', consultaSalva);
+
+                // ETAPA 3: Atualizar interface
+                // Criar dados completos para exibição na interface
+                const dadosCompletos = {
+                    ...consultaData,
+                    duracao: document.getElementById('duracao-consulta').value,
+                    peso: document.getElementById('peso-atual').value,
+                    bf: document.getElementById('bf-atual').value,
+                    queixas: document.getElementById('queixas-principais').value,
+                    avaliacoes: document.getElementById('avaliacoes-realizadas').value,
+                    observacoes: document.getElementById('observacoes-consulta').value,
+                    proximaConsulta: document.getElementById('proxima-consulta').value,
+                    status: document.getElementById('status-consulta').value,
+                    horario: consultaData.hora_inicio // Para compatibilidade com adicionarConsultaNaLista
+                };
+                
+                // Adicionar consulta à lista de consultas realizadas na interface
+                adicionarConsultaNaLista(dadosCompletos);
+                
+                // Mostrar mensagem de sucesso
+                showNovaConsultaMessage('✅ Ficha e consulta registradas com sucesso no sistema!', 'success');
+                
+                // Aguardar um pouco e fechar modal
+                setTimeout(() => {
+                    fecharModalNovaConsulta();
+                    
+                    // Recarregar dados das consultas do paciente
+                    if (pacienteAtual && pacienteAtual.id) {
+                        carregarConsultasPaciente(pacienteAtual.id);
+                    }
+                }, 2500);
+
+            } catch (error) {
+                console.error('Erro ao salvar ficha/consulta:', error);
+                
+                let errorMsg = 'Erro ao registrar ficha/consulta. Tente novamente.';
+                if (error.message) {
+                    errorMsg = error.message;
+                } else if (error.response?.data?.message) {
+                    errorMsg = error.response.data.message;
+                }
+                
+                showNovaConsultaMessage('❌ ' + errorMsg, 'error');
+                
+                // Re-habilitar botão em caso de erro
+                const submitBtn = document.querySelector('#form-nova-consulta button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Salvar Consulta';
+                }
+            }
+        });
+
+        // Função para adicionar consulta na lista da interface
+        function adicionarConsultaNaLista(dados) {
+            try {
+                const dataFormatada = new Date(dados.data + 'T' + (dados.hora_inicio || dados.horario)).toLocaleDateString('pt-BR');
+                
+                // Buscar o texto do tipo de consulta selecionado
+                const tipoSelect = document.getElementById('tipo-consulta');
+                const tipoTexto = tipoSelect.selectedOptions[0]?.text || dados.descricao || 'Consulta';
+                
+                // Buscar o texto do objetivo selecionado
+                const objetivoSelect = document.getElementById('objetivo-consulta');
+                const objetivoTexto = objetivoSelect.selectedOptions[0]?.text || 'Não informado';
+                
+                const novaConsulta = document.createElement('div');
+                novaConsulta.className = 'consulta-item';
+                novaConsulta.innerHTML = `
+                        <div class="consulta-header">
+                            <span class="consulta-data">${formatarData(dados.data)} <br> ${dados.hora_inicio.split(":").slice(0,2).join(":")}</span>
+                        </div>
+                        <div class="consulta-content">
+                            <p><strong>Descrição:</strong> ${dados.descricao}</p>
+                            <p><strong>Objetivo:</strong> ${dados.objetivo_paciente}</p>
+                            <p><strong>Orientação:</strong> ${dados.orientacao}</p>
+                            ${dados.observacoes ? `<p><strong>Observações:</strong> ${dados.observacoes}</p>` : ''}
+                        </div>
+                `;
+                
+                // Adicionar no topo da lista de consultas
+                const consultasList = document.querySelector('#consultas-realizadas .consultas-lista');
+                if (consultasList) {
+                    consultasList.insertBefore(novaConsulta, consultasList.firstChild);
+                }
+            } catch (error) {
+                console.error('Erro ao adicionar consulta na lista:', error);
+            }
+        }
+
+        // Fechar modal clicando fora
+        window.addEventListener('click', function(event) {
+            const modalAgendamento = document.getElementById('modal-agendamento');
+            const modalEdicao = document.getElementById('modal-editar-paciente');
+            const modalNovaConsulta = document.getElementById('modal-nova-consulta');
+            
+            if (event.target === modalAgendamento) {
+                fecharModalAgendamento();
+            }
+            if (event.target === modalEdicao) {
+                fecharModalEdicao();
+            }
+            if (event.target === modalNovaConsulta) {
+                fecharModalNovaConsulta();
+            }
+        });
+    </script>
+
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/profissional/ficha-paciente.js"></script>
+</body>
+</html>

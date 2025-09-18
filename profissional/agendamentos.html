@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas Agendadas - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+</head>
+
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Camila Emerim</span></h2>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sair</button>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item">📊 Dashboard</a></li>
+                    <li><a href="agendamentos.html" class="nav-item active">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="page-header">
+                <div class="page-header-content">
+                    <div class="page-header-text">
+                        <h1>Consultas Agendadas</h1>
+                        <p>Gerencie suas consultas futuras</p>
+                    </div>
+                    <button class="btn btn-primario" onclick="abrirFormularioNovaConsulta()">
+                        + Agendar nova consulta
+                    </button>
+                </div>
+            </div>
+
+            <div class="filtros-consulta">
+                <div class="filtro-grupo">
+                    <label for="filtro-data">Filtrar por data:</label>
+                    <input type="date" id="filtro-data" class="input-filtro">
+                </div>
+                <div class="filtro-grupo">
+                    <label for="filtro-paciente">Buscar paciente:</label>
+                    <input type="text" id="filtro-paciente" placeholder="Nome do paciente" class="input-filtro">
+                </div>
+                <button class="btn btn-filtrar">Filtrar</button>
+            </div>
+
+            <div id="feedback-page" class="feedback-message" style="display: none;"></div>
+
+            <div class="consultas-container" id="consultas-container">
+                <div id="loading-message" class="loading-message">
+                    <p>Carregando consultas...</p>
+                </div>
+                <div id="no-consultas-message" class="no-consultas-message" style="display: none;">
+                    <p>Nenhuma consulta agendada encontrada.</p>
+                </div>
+                <!-- As consultas serão carregadas dinamicamente via JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Detalhes da Consulta -->
+    <div id="modal-detalhes-consulta" class="modal-profissional">
+        <div class="modal-conteudo-profissional">
+            <button class="modal-fechar" onclick="fecharModal('modal-detalhes-consulta')">&times;</button>
+            <h2>Detalhes da Consulta</h2>
+            <div id="detalhes-consulta-conteudo">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+            <div class="modal-acoes">
+                <button class="btn btn-secundario" onclick="redirecionarParaFicha()">Compartilhar Arquivo</button>
+                <button class="btn btn-terciario" onclick="redirecionarParaFicha()">Ver Ficha do Paciente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Consulta -->
+    <div id="modal-nova-consulta" class="modal-profissional">
+        <div class="modal-conteudo-profissional">
+            <button class="modal-fechar" onclick="fecharModal('modal-nova-consulta')">&times;</button>
+            <h2>Agendar Nova Consulta</h2>
+            <form id="form-nova-consulta" class="form-nova-consulta">
+                <div class="form-group">
+                    <label for="paciente-select">Paciente:</label>
+                    <select id="paciente-select" class="form-input" required>
+                        <option value="">Carregando pacientes...</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="data-consulta">Data:</label>
+                        <input type="date" id="data-consulta" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horaInicio-consulta">Hora:</label>
+                        <input type="time" id="horaInicio-consulta" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor-consulta">Valor:</label>
+                    <input type="text" id="valor-consulta" class="form-input" placeholder="R$ 00,00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="formaPagamento-consulta">Forma de pagamento:</label>
+                    <input type="text" id="formaPagamento-consulta" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="observacoes">Observações:</label>
+                    <textarea id="observacoes" class="form-input" rows="3" placeholder="Digite..."></textarea>
+                </div>
+
+                <div id="feedback-modal-consulta" class="modal-message" style="display: none;"></div>
+
+                <div class="modal-acoes">
+                    <button type="button" class="btn btn-secundario"
+                        onclick="fecharModal('modal-nova-consulta')">Cancelar</button>
+                    <button type="submit" class="btn btn-primario">Agendar Consulta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/profissional/agendamentos.js"></script>
+    
+    <script>
+        function redirecionarParaFicha() {
+            window.location.href = 'ficha-paciente.html';
+        }
+    </script>
+</body>
+
+</html>

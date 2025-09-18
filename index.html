@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CliniVida - Início</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="bg-com-margem"></div>
+  <header class="cabeçalho">
+    <a href="index.html">
+      <img src="assets/logo.png" alt="Logo CliniVida" class="logo">
+    </a>
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="#sobre">SOBRE</a></li>
+        <li><a href="#profissionais">PROFISSIONAIS</a></li>
+        <li><a href="#planos">PLANOS</a></li>
+        <li><a href="#contato">CONTATO</a></li>
+        <li class="login"><a href="#" id="abrir-login">LOGIN</a></li>
+        <li class="cadastre-se"><a href="#" id="abrir-cadastro">CADASTRE-SE</a></li>
+        <li class="login"><a href="profissional/index.html">ÁREA PROFISSIONAL</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <!--Seção para o home da página-->
+    <section>
+      <div class="welcome-card">
+        <p class="destaque-home">
+          Bem-vindo ao CliniVida! Aqui você encontra um espaço dedicado ao seu bem-estar, onde pode agendar consultas
+          com nutricionistas e personal trainers de forma fácil e rápida. Escolha o plano que mais combina com você e
+          comece hoje mesmo a cuidar da sua saúde com praticidade e confiança.
+        </p>
+      </div>
+    </section>
+
+    <!--Seção para o Sobre da página-->
+    <section>
+      <div class="bloco-com-imagem">
+        <div class="texto-bloco">
+          <h3>Por que escolher o CliniVida?</h3>
+          <h4>
+            No CliniVida, você encontra atendimento personalizado para alcançar seus objetivos de saúde e qualidade de
+            vida. Oferecemos consultas com nutricionistas e acompanhamento de personal trainers, tudo em um só lugar,
+            com planos flexíveis e profissionais qualificados.<br><br>
+            Nosso compromisso é facilitar o seu acesso a uma vida mais saudável, com praticidade, confiança e suporte em
+            cada etapa da sua jornada.
+          </h4>
+        </div>
+        <img id="sobre" src="assets/Mulher treinando costas.png" alt="Mulher treinando costas" class="imagem-lado">
+      </div>
+
+      <div
+        style="display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; text-align: center;">
+        <h3 id="profissionais">Conheça nossos profissionais!</h3>
+        <h6>Especialistas dedicados a cuidar da sua saúde e bem-estar</h6>
+      </div>
+
+      <section class="imagens-centrais">
+        <!-- Os profissionais serão carregados dinamicamente aqui -->
+      </section>
+    </section>
+
+    <!--Seção para os planos da página-->
+    <section>
+      <div
+        style="display: flex; flex-direction: column; width: 100%; align-items: center; justify-content: center; text-align: center;">
+        <h3 id="planos">Escolha o melhor plano para você!</h3>
+      </div>
+
+      <!--Plano 1-->
+      <div class="planos-container">
+        <div class="plano-card roxo">
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 180,00</div>
+          <div class="plano-info">1x Nutricionista</div>
+          <button id="botao-saiba-mais1" class="botao-saiba-mais1"
+            onclick="abrirModalAnimado('modal1', 'botao-saiba-mais1')">SAIBA MAIS</button>
+        </div>
+
+        <!--Plano 2-->
+        <div class="plano-card roxo">
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 280,00</div>
+          <div class="plano-info">4x Personal Trainer</div>
+          <button id="botao-saiba-mais2" class="botao-saiba-mais2"
+            onclick="abrirModalAnimado('modal2', 'botao-saiba-mais2')">SAIBA MAIS</button>
+        </div>
+
+        <!--Plano 3-->
+        <div class="plano-card roxo">
+          <span class="etiqueta-desconto">+ desconto</span>
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 420,00</div>
+          <div class="plano-info">1x Nutricionista<br>4x Personal Trainer</div>
+          <button id="botao-saiba-mais3" class="botao-saiba-mais3"
+            onclick="abrirModalAnimado('modal3', 'botao-saiba-mais3')">SAIBA MAIS</button>
+        </div>
+      </div>
+
+      <!--Plano 4-->
+      <div class="planos-container">
+        <div class="plano-card roxo">
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 320,00</div>
+          <div class="plano-info">2x Nutricionista</div>
+          <button id="botao-saiba-mais4" class="botao-saiba-mais4"
+            onclick="abrirModalAnimado('modal4', 'botao-saiba-mais4')">SAIBA MAIS</button>
+        </div>
+
+        <!--Plano 5-->
+        <div class="plano-card roxo">
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 720,00</div>
+          <div class="plano-info">12x Personal Trainer</div>
+          <button id="botao-saiba-mais5" class="botao-saiba-mais5"
+            onclick="abrirModalAnimado('modal5', 'botao-saiba-mais5')">SAIBA MAIS</button>
+        </div>
+
+        <!--Plano 6-->
+        <div class="plano-card roxo">
+          <span class="etiqueta-desconto">+ desconto</span>
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 980,00</div>
+          <div class="plano-info">2x Nutricionista<br>12x Personal Trainer</div>
+          <button id="botao-saiba-mais6" class="botao-saiba-mais6"
+            onclick="abrirModalAnimado('modal6', 'botao-saiba-mais6')">SAIBA MAIS</button>
+        </div>
+      </div>
+
+      <!--Plano 7-->
+      <div class="planos-container">
+        <div class="plano-card roxo">
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 1.100,00</div>
+          <div class="plano-info">20x Personal Trainer</div>
+          <button id="botao-saiba-mais7" class="botao-saiba-mais7"
+            onclick="abrirModalAnimado('modal7', 'botao-saiba-mais7')">SAIBA MAIS</button>
+        </div>
+
+        <!--Plano 8-->
+        <div class="plano-card roxo">
+          <span class="etiqueta-desconto">+ desconto</span>
+          <div class="plano-info">MENSAL</div>
+          <div class="plano-info valor-plano">R$ 1.390,00</div>
+          <div class="plano-info">2x Nutricionista<br>20x Personal Trainer</div>
+          <button id="botao-saiba-mais8" class="botao-saiba-mais8"
+            onclick="abrirModalAnimado('modal8', 'botao-saiba-mais8')">SAIBA MAIS</button>
+        </div>
+      </div>
+    </section>
+
+    <!--Seção para o contato da página-->
+    <section>
+      <div id="contato" class="contato-section">
+        <div class="contato-lateral">
+          <div class="contato-textos">
+            <h3 class="duvidas-titulo">Ficou com dúvidas?</h3>
+            <span class="contato-subtitulo">Entre em contato conosco!</span>
+            <span class="contato-telefone">
+              (00) 12345-6789
+            </span>
+          </div>
+        </div>
+        <div class="container-contato-tabela">
+          <form class="formulario-contato" autocomplete="off">
+            <fieldset>
+              <legend>Formulário de Contato</legend>
+              <p>Preencha o formulário abaixo e entraremos em contato o mais breve possível.</p>
+              <div class="campo-contato">
+                <input type="text" placeholder="Nome:" required>
+                <input type="email" placeholder="E-mail:" required>
+                <textarea placeholder="Mensagem:" required rows="5" cols="50"></textarea>
+                <button type="submit" class="botao-bolinha enviar-botao">enviar</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <div class="rodape-logo">
+        <img src="assets/logo.png" alt="Logo CliniVida">
+      </div>
+      <nav class="rodape-mapa">
+        <h5>Mapa do site</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="profissionais.html">Profissionais</a></li>
+          <li><a href="agendamentos.html">Planos</a></li>
+          <li><a href="consultas.html">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="rodape-contato">
+        <h5>Contato</h5>
+        <p>(00) 12345-6789</p>
+        <p>contato@clinivida.com</p>
+      </div>
+      <div class="rodape-redes">
+        <h5>Redes Sociais</h5>
+        <div style="display: flex; gap: 10px;">
+          <a href="#"><img src="assets/icone-instagram.png" alt="Instagram"></a>
+          <a href="#"><img src="assets/icone-facebook.png" alt="Facebook"></a>
+          <a href="#"><img src="assets/icone-whatsapp.png" alt="WhatsApp"></a>
+        </div>
+      </div>
+    </div>
+    <div class="rodape-copy">
+      &copy; 2025 CliniVida. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <!-- Modal Login -->
+  <div id="modal-login" class="modal-plano modal-login">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal-login')">&times;</button>
+      <h2>Login</h2>
+      <form id="formLogin" autocomplete="off">
+        <input class="login-campo" type="email" id="login-email" placeholder="Seu e-mail" required>
+        <input class="login-campo" type="password" id="login-password" placeholder="Sua senha" required>
+        <button type="submit" class="modal-assinar">Entrar</button>
+        <div id="login-message" class="login-message"></div>
+      </form>
+      <div class="login-links">
+        <a href="#" class="login-link">Esqueceu sua senha?</a>
+        <a href="#" id="abrir-cadastro-link" class="login-link">Criar conta</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cadastro -->
+  <div id="modal-cadastro" class="modal-plano modal-cadastro">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal-cadastro')">&times;</button>
+      <h2>Cadastro</h2>
+      <form id="formCadastro">
+        <input class="login-campo" type="text" id="nome" placeholder="Nome completo" required>
+        <input class="login-campo" type="text" id="cpf" placeholder="CPF" required>
+        <input class="login-campo" type="email" id="email" placeholder="E-mail" required>
+        <input class="login-campo" type="password" id="senha" placeholder="Nova senha" required>
+        <input class="login-campo" type="tel" id="telefone" placeholder="Telefone" required>
+        <input class="login-campo" type="date" id="data" placeholder="Data de nascimento" required>
+        <div class="login-campo-genero">
+          <label>Gênero:</label>
+          <div class="genero-opcoes">
+            <input type="radio" id="masculino" name="genero" value="M">
+            <label for="masculino">Masculino</label>
+            <input type="radio" id="feminino" name="genero" value="F">
+            <label for="feminino">Feminino</label>
+            <input type="radio" id="outro" name="genero" value="O">
+            <label for="outro">Outro</label>
+          </div>
+        </div>
+        <button type="submit" class="modal-assinar">Criar conta</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modais dos Planos -->
+  <!-- Modal Plano 1 -->
+  <div id="modal1" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal1')">&times;</button>
+      <h2>Detalhes do Plano: Nutrição Essencial</h2>
+      <p>Este plano é perfeito para quem busca um primeiro passo em direção a hábitos alimentares mais saudáveis. Inclui
+        uma consulta mensal com nutricionista, onde você receberá um plano alimentar personalizado, dicas para
+        reeducação alimentar e acompanhamento para suas metas. Ideal para iniciar sua jornada de bem-estar com
+        orientação profissional.</p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <!-- Modal Plano 2 -->
+  <div id="modal2" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal2')">&times;</button>
+      <h2>Detalhes do Plano: Treino Básico</h2>
+      <p>O plano de 4 sessões mensais com personal trainer é ideal para quem quer começar a treinar com orientação
+        profissional e personalizada. Foco em resultados, técnicas corretas e motivação para alcançar seus objetivos de
+        forma segura e eficaz. Perfeito para iniciantes ou para quem busca otimizar seus treinos.</p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <!-- Modal Plano 3 -->
+  <div id="modal3" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal3')">&times;</button>
+      <h2>Detalhes do Plano: Bem-Estar Completo</h2>
+      <p>Obtenha o melhor dos dois mundos com o nosso plano combinado! Inclui uma consulta mensal com nutricionista para
+        um plano alimentar sob medida e quatro sessões com personal trainer para um treino individualizado. Este plano
+        oferece uma abordagem integral para sua saúde e fitness, maximizando seus resultados com um desconto exclusivo.
+      </p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <!-- Modal Plano 4 -->
+  <div id="modal4" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal4')">&times;</button>
+      <h2>Detalhes do Plano: Nutrição Avançada</h2>
+      <p>Para quem busca um acompanhamento nutricional mais frequente e aprofundado, este plano oferece duas consultas
+        mensais com nutricionista. Ideal para ajustar seu plano alimentar, monitorar o progresso de perto e receber
+        suporte contínuo para alcançar seus objetivos de forma consistente.</p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <!-- Modal Plano 5 -->
+  <div id="modal5" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal5')">&times;</button>
+      <h2>Detalhes do Plano: Treino Intensivo</h2>
+      <p>Maximize seus resultados com 12 sessões mensais de personal trainer. Este plano é feito para quem deseja um
+        acompanhamento intensivo e consistente, acelerando o progresso e garantindo que você atinja suas metas de
+        fitness mais rapidamente. Desfrute de treinos variados, personalizados e de alta performance.</p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <!-- Modal Plano 6 -->
+  <div id="modal6" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal6')">&times;</button>
+      <h2>Detalhes do Plano: Transformação Total</h2>
+      <p>Nosso plano mais completo para uma transformação total e duradoura. Inclui duas consultas mensais com
+        nutricionista para um acompanhamento detalhado e doze sessões com personal trainer para um programa de
+        exercícios intensivo e altamente eficaz. Perfeito para quem busca resultados rápidos e um suporte abrangente
+        para atingir o máximo do seu potencial, com um desconto especial.</p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <!-- Modal Plano 7 -->
+  <div id="modal7" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal7')">&times;</button>
+      <h2>Detalhes do Plano: Performance Máxima</h2>
+      <p>Desenvolvido para atletas e indivíduos que buscam performance de elite, este plano oferece 20 sessões mensais
+        with personal trainer. Garanta um treino de alta intensidade, supervisionado e totalmente customizado para
+        superar seus limites e alcançar resultados extraordinários em força, resistência e condicionamento físico.</p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <!-- Modal Plano 8 -->
+  <div id="modal8" class="modal-plano">
+    <div class="modal-conteudo">
+      <button class="modal-fechar" onclick="fecharModal('modal8')">&times;</button>
+      <h2>Detalhes do Plano: Acelere Seus Resultados</h2>
+      <p>O plano mais completo e exclusivo para quem busca o máximo em saúde e performance. Com duas consultas mensais
+        com nutricionista e vinte sessões com personal trainer, você terá um acompanhamento intensivo e totalmente
+        otimizado. Este plano é a chave para atingir seus objetivos de forma acelerada, com o melhor custo-benefício e
+        suporte de ponta.</p>
+      <button class="modal-assinar">ASSINAR PLANO</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="js/imageUtils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

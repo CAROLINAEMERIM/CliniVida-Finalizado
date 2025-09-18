@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+    <style>
+        /* Estilos para o sistema de notificações */
+        .notificacao {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 300px;
+            max-width: 500px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .notificacao.ativo {
+            display: flex;
+            transform: translateX(0);
+        }
+        
+        .notificacao.sucesso {
+            background: #4CAF50;
+        }
+        
+        .notificacao.erro {
+            background: #f44336;
+        }
+        
+        .notificacao.aviso {
+            background: #ff9800;
+        }
+        
+        .notificacao button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 15px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        
+        .notificacao button:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        /* Estilos para validação de senha em tempo real */
+        .validacao-senha {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .validacao-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .validacao-icone {
+            margin-right: 8px;
+            font-size: 10px;
+        }
+
+        .validacao-item.valido .validacao-icone {
+            color: #4CAF50;
+        }
+
+        .validacao-item.valido .validacao-texto {
+            color: #4CAF50;
+        }
+
+        .validacao-item:not(.valido) .validacao-icone {
+            color: #f44336;
+        }
+
+        .validacao-item:not(.valido) .validacao-texto {
+            color: #666;
+        }
+    </style>
+</head>
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Camila Emerim</span></h2>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sair</button>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item">📊 Dashboard</a></li>
+                    <li><a href="agendamentos.html" class="nav-item">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item active">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="page-header">
+                <h1>Meu Perfil Profissional</h1>
+                <p>Gerencie suas informações profissionais</p>
+            </div>
+
+            <div class="perfil-profissional-container">
+                <div class="perfil-avatar-section">
+                    <div class="perfil-avatar-container">
+                        <div id="avatar-display-profissional">
+                            <div class="avatar-placeholder">👤</div>
+                        </div>
+                        <button type="button" class="avatar-upload-btn" onclick="document.getElementById('avatar-input-profissional').click()">
+                            📷
+                        </button>
+                        <input type="file" id="avatar-input-profissional" class="avatar-upload-input" accept="image/*">
+                    </div>
+                </div>
+
+                <div class="perfil-form-section">
+                    <form class="form-perfil-profissional" id="form-perfil-profissional">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome-completo">Nome Completo*</label>
+                                <input type="text" id="nome-completo" name="nome-completo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="especialidade">Especialidade*</label>
+                                <select id="especialidade" name="especialidade" required>
+                                    <option value="nutricionista" selected>Nutricionista</option>
+                                    <option value="personal-trainer">Personal Trainer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="registro-profissional">Registro Profissional*</label>
+                                <input type="text" id="registro-profissional" name="registro-profissional" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email-profissional">E-mail Profissional*</label>
+                                <input type="email" id="email-profissional" name="email-profissional" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefone-profissional">Telefone*</label>
+                                <input type="tel" id="telefone-profissional" name="telefone-profissional" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="data-nascimento">Data de Nascimento</label>
+                                <input type="date" id="data-nascimento" name="data-nascimento">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="bio-profissional">Biografia Profissional</label>
+                                <textarea id="bio-profissional" name="bio-profissional" rows="4" placeholder="Conte um pouco sobre sua experiência e abordagem profissional...">
+                                    
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="formacao">Formação Principal</label>
+                                <input type="text" id="formacao" name="formacao">
+                            </div>
+                            <div class="form-group">
+                                <label for="especializacoes">Especializações</label>
+                                <input type="text" id="especializacoes" name="especializacoes">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="experiencia">Anos de Experiência</label>
+                                <select id="experiencia" name="experiencia">
+                                    <option value="1-2">1-2 anos</option>
+                                    <option value="3-5">3-5 anos</option>
+                                    <option value="6-10" selected>6-10 anos</option>
+                                    <option value="10+">Mais de 10 anos</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="valor_consulta">Valor da Consulta</label>
+                                <input type="number" id="valor_consulta" name="valor_consulta">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secundario" onclick="abrirModalSenhaProfissional()">Alterar Senha</button>
+                            <button type="submit" class="btn btn-primario">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para alteração de senha -->
+    <div id="modal-senha-profissional" class="modal-senha">
+        <div class="modal-senha-conteudo">
+            <button class="modal-senha-fechar" onclick="fecharModalSenhaProfissional()">&times;</button>
+            <h2>Alterar Senha</h2>
+            <form class="form-senha" id="form-alterar-senha-profissional">
+                <div class="form-group-senha">
+                    <label for="senha-atual-prof">Senha Atual*</label>
+                    <input type="password" id="senha-atual-prof" name="senha-atual-prof" required>
+                </div>
+                <div class="form-group-senha">
+                    <label for="nova-senha-prof">Nova Senha*</label>
+                    <input type="password" id="nova-senha-prof" name="nova-senha-prof" required>
+                    <div id="validacao-senha" class="validacao-senha">
+                        <div class="validacao-item" data-regra="minLength">
+                            <span class="validacao-icone">❌</span>
+                            <span class="validacao-texto">Mínimo de 8 caracteres</span>
+                        </div>
+                        <div class="validacao-item" data-regra="hasUpper">
+                            <span class="validacao-icone">❌</span>
+                            <span class="validacao-texto">Pelo menos uma letra maiúscula</span>
+                        </div>
+                        <div class="validacao-item" data-regra="hasLower">
+                            <span class="validacao-icone">❌</span>
+                            <span class="validacao-texto">Pelo menos uma letra minúscula</span>
+                        </div>
+                        <div class="validacao-item" data-regra="hasNumber">
+                            <span class="validacao-icone">❌</span>
+                            <span class="validacao-texto">Pelo menos um número</span>
+                        </div>
+                        <div class="validacao-item" data-regra="hasSpecial">
+                            <span class="validacao-icone">❌</span>
+                            <span class="validacao-texto">Pelo menos um caractere especial (!@#$%^&*)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-senha">
+                    <label for="confirmar-senha-prof">Confirmar Nova Senha*</label>
+                    <input type="password" id="confirmar-senha-prof" name="confirmar-senha-prof" required>
+                </div>
+                <button type="submit" class="btn-salvar-senha">Alterar Senha</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sistema de notificações -->
+    <div id="notificacao" class="notificacao">
+        <span id="notificacao-texto"></span>
+        <button onclick="fecharNotificacao()">&times;</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/imageUtils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/profissional/perfil.js"></script>
+</body>
+</html>

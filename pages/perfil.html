@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/paciente.css">
+ </head>
+<body class="perfil-page">
+    <header class="cabeçalho">
+        <a href="../index.html">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo">
+        </a>
+        <nav>
+            <ul class="menu">
+                <li><a href="../paciente.html">HOME</a></li>
+                <li><a href="agendamentos.html">AGENDAMENTOS</a></li>
+                <li><a href="historico.html">HISTÓRICO CLÍNICO</a></li>
+                <li><a href="plano.html">PLANOS E COBERTURAS</a></li>
+                <li><a href="perfil.html" class="ativo">MEU PERFIL</a></li>
+                <li><a href="ajuda.html">SUPORTE</a></li>
+                <li><a href="../index.html" id="sair">SAIR</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper">
+        <div class="welcome-message">
+            <h1>Meu Perfil</h1>
+            <p>Gerencie suas informações pessoais</p>
+        </div>
+
+        <div class="perfil-profissional-container">
+            <div class="perfil-form-section">
+                <form class="form-perfil-paciente perfil-form-spacing" id="form-perfil-paciente">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="login">Login*</label>
+                            <input type="email" id="login" name="login" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="btn-alterar-senha">Senha</label>
+                            <button type="button" id="btn-alterar-senha" class="btn btn-secundario">Alterar senha</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome">Nome*</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dataNascimento">Data de Nascimento</label>
+                            <input type="date" id="dataNascimento" name="dataNascimento">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telefone">Telefone*</label>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(XX) XXXXX-XXXX" maxlength="15">
+                        </div>
+                        <div class="form-group">
+                            <label for="genero">Gênero</label>
+                            <select id="genero" name="genero">
+                                <option value="">Selecione</option>
+                                <option id="genero-masculino" value="Masculino">Masculino</option>
+                                <option id="genero-feminino" value="Feminino">Feminino</option>
+                                <option id="genero-outro" value="Outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions form-actions-center">
+                        <button type="submit" class="btn btn-primario btn-salvar-perfil">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="../assets/logo.png" alt="Logo CliniVida">
+            </div>
+            <nav class="rodape-mapa">
+                <h5>Mapa do Site</h5>
+                <ul>
+                    <li><a href="../paciente.html">Home</a></li>
+                    <li><a href="agendamentos.html">Agendamentos</a></li>
+                    <li><a href="historico.html">Histórico Clínico</a></li>
+                    <li><a href="plano.html">Planos e Coberturas</a></li>
+                    <li><a href="perfil.html">Meu Perfil</a></li>
+                    <li><a href="ajuda.html">Suporte</a></li>
+                </ul>
+            </nav>
+            <div class="rodape-contato">
+                <h5>Contato</h5>
+                <p>(xx) xxxxx-xxxx</p>
+                <p>contato@clinivida.com.br</p>
+            </div>
+            <div class="rodape-redes">
+                <h5>Redes Sociais</h5>
+                <div style="display: flex; gap: 10px;">
+                    <a href="#"><img src="../assets/icone-instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="../assets/icone-facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="../assets/icone-whatsapp.png" alt="WhatsApp"></a>
+                </div>
+            </div>
+        </div>
+        <div class="rodape-copy">
+            &copy; 2025 CliniVida. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <!-- Modal para alteração de senha -->
+    <div id="modal-senha-paciente" class="modal-senha">
+        <div class="modal-senha-conteudo">
+            <button class="modal-senha-fechar" onclick="fecharModalSenhaPaciente()">&times;</button>
+            <h2>Alterar Senha</h2>
+            <form class="form-senha" id="form-alterar-senha-paciente">
+                <div class="form-group-senha">
+                    <label for="senha-atual-pac">Senha Atual*</label>
+                    <input type="password" id="senha-atual-pac" name="senha-atual-pac" required>
+                </div>
+                <div class="form-group-senha">
+                    <label for="nova-senha-pac">Nova Senha*</label>
+                    <input type="password" id="nova-senha-pac" name="nova-senha-pac" required>
+                </div>
+                <div class="form-group-senha">
+                    <label for="confirmar-senha-pac">Confirmar Nova Senha*</label>
+                    <input type="password" id="confirmar-senha-pac" name="confirmar-senha-pac" required>
+                </div>
+                <div class="senha-requisitos">
+                    <h4>Requisitos da senha:</h4>
+                    <ul>
+                        <li>Mínimo de 8 caracteres</li>
+                        <li>Pelo menos uma letra maiúscula</li>
+                        <li>Pelo menos uma letra minúscula</li>
+                        <li>Pelo menos um número</li>
+                        <li>Pelo menos um caractere especial (!@#$%^&*)</li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn-salvar-senha-paciente">Alterar Senha</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Carregar dados do perfil e avatar (FALLBACK - só executa se perfil.js não funcionar)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aguardar um pouco para ver se o perfil.js carrega
+            setTimeout(function() {
+                const loginField = document.getElementById('login');
+                // Se o campo de login ainda estiver vazio, executar fallback
+                if (loginField && !loginField.value) {
+                    console.log('Executando fallback de carregamento de dados...');
+                    carregarDadosPerfil();
+                    carregarAvatar();
+                }
+            }, 500);
+        });
+
+        function carregarDadosPerfil() {
+            // Preencher campos com dados do localStorage
+            const loginField = document.getElementById('login');
+            const nomeField = document.getElementById('nome');
+            const telefoneField = document.getElementById('telefone');
+            const dataNascimentoField = document.getElementById('dataNascimento');
+            const generoField = document.getElementById('genero');
+
+            if (loginField) {
+                loginField.value = localStorage.getItem('paciente_email') || '';
+            }
+            if (nomeField) {
+                nomeField.value = localStorage.getItem('paciente_nome') || '';
+            }
+            if (telefoneField) {
+                telefoneField.value = localStorage.getItem('paciente_telefone') || '';
+            }
+            if (dataNascimentoField) {
+                dataNascimentoField.value = localStorage.getItem('paciente_dataNascimento') || '';
+            }
+            if (generoField) {
+                generoField.value = localStorage.getItem('paciente_genero') || '';
+            }
+        }
+
+        function carregarAvatar() {
+            const avatarDisplay = document.getElementById('avatar-display');
+            const avatarSalvo = localStorage.getItem('paciente_avatar');
+            
+            if (avatarSalvo) {
+                avatarDisplay.innerHTML = `<img src="${avatarSalvo}" alt="Foto de Perfil" class="perfil-avatar-img">`;
+            } else {
+                avatarDisplay.innerHTML = `<div class="avatar-placeholder">👤</div>`;
+            }
+        }
+
+        // Upload de avatar
+        document.getElementById('avatar-input-paciente').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatarData = e.target.result;
+                    localStorage.setItem('paciente_avatar', avatarData);
+                    carregarAvatar();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Funções do modal de senha
+        document.getElementById('btn-alterar-senha').addEventListener('click', function() {
+            abrirModalSenhaPaciente();
+        });
+
+        function abrirModalSenhaPaciente() {
+            document.getElementById('modal-senha-paciente').classList.add('ativo');
+        }
+
+        function fecharModalSenhaPaciente() {
+            document.getElementById('modal-senha-paciente').classList.remove('ativo');
+            document.getElementById('form-alterar-senha-paciente').reset();
+        }
+
+        // Fechar modal clicando fora
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal-senha-paciente');
+            if (event.target === modal) {
+                fecharModalSenhaPaciente();
+            }
+        });
+
+        // Validação e alteração de senha
+        document.getElementById('form-alterar-senha-paciente').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const senhaAtual = document.getElementById('senha-atual-pac').value;
+            const novaSenha = document.getElementById('nova-senha-pac').value;
+            const confirmarSenha = document.getElementById('confirmar-senha-pac').value;
+            const senhaArmazenada = localStorage.getItem('paciente_senha') || 'admin';
+            
+            // Validar senha atual
+            if (senhaAtual !== senhaArmazenada) {
+                alert('Senha atual incorreta!');
+                return;
+            }
+            
+            // Validar se as senhas coincidem
+            if (novaSenha !== confirmarSenha) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            // Validar requisitos da senha
+            if (!validarSenhaPaciente(novaSenha)) {
+                alert('A nova senha não atende aos requisitos de segurança!');
+                return;
+            }
+            
+            // Salvar nova senha
+            localStorage.setItem('paciente_senha', novaSenha);
+            alert('Senha alterada com sucesso!');
+            fecharModalSenhaPaciente();
+        });
+
+        function validarSenhaPaciente(senha) {
+            const minLength = senha.length >= 8;
+            const hasUpper = /[A-Z]/.test(senha);
+            const hasLower = /[a-z]/.test(senha);
+            const hasNumber = /\d/.test(senha);
+            const hasSpecial = /[!@#$%^&*]/.test(senha);
+            
+            return minLength && hasUpper && hasLower && hasNumber && hasSpecial;
+        }
+
+        // Salvamento do formulário de perfil
+        document.getElementById('form-perfil-paciente').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Salvar dados no localStorage
+            localStorage.setItem('paciente_nome', document.getElementById('nome').value);
+            localStorage.setItem('paciente_telefone', document.getElementById('telefone').value);
+            localStorage.setItem('paciente_dataNascimento', document.getElementById('dataNascimento').value);
+            localStorage.setItem('paciente_genero', document.getElementById('genero').value);
+            
+        });
+
+        // Função de sair
+        const sairBtn = document.getElementById('sair');
+        if (sairBtn) {
+            sairBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('paciente_nome');
+                localStorage.removeItem('paciente_email');
+                localStorage.removeItem('paciente_senha');
+                localStorage.removeItem('paciente_telefone');
+                localStorage.removeItem('paciente_dataNascimento');
+                localStorage.removeItem('paciente_genero');
+                window.location.href = "../index.html";
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/perfil.js"></script>
+</body>
+</html>

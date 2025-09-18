@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</body>
+</html>
+    <title>Área do Usuário - CliniVida</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/paciente.css">
+</head>
+<body class="paciente-page"> <header class="cabeçalho">
+        <a href="index.html">
+            <img src="assets/logo.png" alt="Logo CliniVida" class="logo">
+        </a>
+        <nav>
+            <ul class="menu">
+                <li><a href="paciente.html">HOME</a></li>
+                <li><a href="pages/agendamentos.html">AGENDAMENTOS</a></li>
+                <li><a href="pages/historico.html">HISTÓRICO CLÍNICO</a></li>
+                <li><a href="pages/plano.html">PLANOS E COBERTURAS</a></li>
+                <li><a href="pages/perfil.html">MEU PERFIL</a></li>
+                <li><a href="pages/ajuda.html">SUPORTE</a></li>
+                <li><a href="index.html" id="sair">SAIR</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="welcome-message">
+            <h1>Bem-vindo(a) à sua Área Exclusiva, <span id="usuarioLogado"></span>!</h1>
+            <p>Seu espaço dedicado para gerenciar sua saúde com privacidade e segurança. Aqui, você tem acesso rápido a todas as ferramentas necessárias para otimizar sua jornada de cuidado na CliniVida.</p>
+        </div>
+
+        <div class="feature-cards">
+            <div class="feature-card">
+                <h2>Gerenciamento de Agendamentos</h2>
+                <p>Consulte seus compromissos futuros, reagende ou cancele consultas com facilidade e agilidade, garantindo flexibilidade em sua rotina.</p>
+                <a href="pages/agendamentos.html" class="botao-bolinha">Visualizar Agenda</a>
+            </div>
+            <div class="feature-card">
+                <h2>Acesso ao Histórico Clínico</h2>
+                <p>Mantenha-se informado(a) sobre seu histórico de saúde, incluindo consultas anteriores, resultados de exames e prescrições médicas de forma segura.</p>
+                <a href="pages/historico.html" class="botao-bolinha">Acessar Histórico</a>
+            </div>
+            <div class="feature-card">
+                <h2>Detalhes do Seu Plano</h2>
+                <p>Obtenha informações detalhadas sobre seu plano de saúde, cobertura, benefícios e condições para utilizar nossos serviços e parceiros credenciados.</p>
+                <a href="pages/plano.html" class="botao-bolinha">Consultar Plano</a>
+            </div>
+            <div class="feature-card">
+                <h2>Atualização de Dados Cadastrais</h2>
+                <p>Mantenha suas informações pessoais e de contato sempre atualizadas para assegurar um atendimento contínuo e personalizado. Sua privacidade é nossa prioridade.</p>
+                <a href="pages/perfil.html" class="botao-bolinha">Editar Perfil</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="assets/logo.png" alt="Logo CliniVida">
+            </div>
+            <nav class="rodape-mapa">
+                <h5>Mapa do Site</h5>
+                <ul>
+                    <li><a href="paciente.html">Home</a></li>
+                    <li><a href="pages/agendamentos.html">Agendamentos</a></li>
+                    <li><a href="pages/historico.html">Histórico Clínico</a></li>
+                    <li><a href="pages/plano.html">Planos e Coberturas</a></li>
+                    <li><a href="pages/perfil.html">Meu Perfil</a></li>
+                    <li><a href="pages/ajuda.html">Suporte</a></li>
+                </ul>
+            </nav>
+            <div class="rodape-contato">
+                <h5>Contato</h5>
+                <p>(xx) xxxxx-xxxx</p>
+                <p>contato@clinivida.com.br</p>
+            </div>
+            <div class="rodape-redes">
+                <h5>Redes Sociais</h5>
+                <div style="display: flex; gap: 10px;">
+                    <a href="#"><img src="assets/icone-instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="assets/icone-facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="assets/icone-whatsapp.png" alt="WhatsApp"></a>
+                </div>
+            </div>
+        </div>
+        <div class="rodape-copy">
+            &copy; 2025 CliniVida. Todos os direitos reservados.
+        </div>
+    </footer>
+    <script>
+        // Mostra o nome do usuário cadastrado
+        const userData = JSON.parse(localStorage.getItem('userData'));
+      
+        if (!userData || !userData.id) {
+            utils.showError('Usuário não encontrado. Faça login novamente.');
+            window.location.href = '../index.html';
+        }
+        document.getElementById('usuarioLogado').textContent = userData.name.split(' ')[0] || userData.email.split('@')[0];
+
+        // Função de sair
+        const sairBtn = document.getElementById('sair');
+        if (sairBtn) {
+            sairBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('userData');
+                window.location.href = "index.html";
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>

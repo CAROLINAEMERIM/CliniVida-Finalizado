@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/paciente.css">
+</head>
+<body class="paciente-page">
+
+    <header class="cabeçalho">
+        <a href="../index.html">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo">
+        </a>
+        <nav>
+            <ul class="menu">
+                <li><a href="../paciente.html">HOME</a></li>
+                <li><a href="agendamentos.html" class="ativo">AGENDAMENTOS</a></li>
+                <li><a href="historico.html">HISTÓRICO CLÍNICO</a></li>
+                <li><a href="plano.html">PLANOS E COBERTURAS</a></li>
+                <li><a href="perfil.html">MEU PERFIL</a></li>
+                <li><a href="ajuda.html">SUPORTE</a></li>
+                <li><a href="../index.html" id="sair">SAIR</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper agenda-page-wrapper">
+        <div class="agenda-content">
+            <div id="etapa-profissional" class="agenda-step active">
+                <h2 class="agenda-titulo">ESCOLHA SEU PROFISSIONAL</h2>
+                <p class="agenda-descricao">Selecione o profissional que melhor atende suas necessidades</p>
+                
+                <div class="profissionais-carrossel">
+                    <button class="carrossel-btn carrossel-prev" id="prev-profissional">‹</button>
+                    
+                    <div class="profissionais-container">
+                        <div class="profissionais-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Carregando profissionais...</p>
+                        </div>
+                    </div>
+                    
+                    <button class="carrossel-btn carrossel-next" id="next-profissional">›</button>
+                </div>
+                
+                <div class="profissional-indicadores">
+                    <!-- Indicadores serão criados dinamicamente via JavaScript -->
+                </div>
+                
+                <button class="btn btn-proximo" onclick="showNextStep('etapa-data')">PRÓXIMO</button>
+            </div>
+
+            <div id="etapa-data" class="agenda-step" style="display: none;">
+                <h2 class="agenda-titulo">ESCOLHA A DATA DA CONSULTA</h2>
+                <div class="calendar-nav">
+                    <span id="prevMonth" class="arrow-nav">‹</span>
+                    <span id="month-year">Janeiro 2025</span>
+                    <span id="nextMonth" class="arrow-nav">›</span>
+                </div>
+                <table class="calendar">
+                    <thead>
+                        <tr>
+                            <th>Dom</th>
+                            <th>Seg</th>
+                            <th>Ter</th>
+                            <th>Qua</th>
+                            <th>Qui</th>
+                            <th>Sex</th>
+                            <th>Sab</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-days"></tbody>
+                </table>
+                <div class="agenda-navigation">
+                    <button class="btn btn-voltar" onclick="showPrevStep('etapa-profissional')">VOLTAR</button>
+                    <button class="btn btn-proximo" onclick="showNextStep('etapa-horario')">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <div id="etapa-horario" class="agenda-step" style="display: none;">
+                <h2 class="agenda-titulo">ESCOLHA O HORÁRIO</h2>
+                <p class="data-selecionada">Sexta-feira, 24 de janeiro</p>
+                <div class="horarios-grid">
+                    <button class="horario-btn">09:00</button>
+                    <button class="horario-btn unavailable">10:00</button>
+                    <button class="horario-btn">11:00</button>
+                    <button class="horario-btn">13:00</button>
+                    <button class="horario-btn">14:00</button>
+                    <button class="horario-btn unavailable">15:00</button>
+                    <button class="horario-btn">16:00</button>
+                    <button class="horario-btn">17:00</button>
+                    <button class="horario-btn unavailable">18:00</button>
+                </div>
+                <div class="agenda-navigation">
+                    <button class="btn btn-voltar" onclick="showPrevStep('etapa-data')">VOLTAR</button>
+                    <button class="btn btn-proximo" onclick="showNextStep('etapa-informacoes')">PRÓXIMO</button>
+                </div>
+            </div>
+
+            <div id="etapa-informacoes" class="agenda-step" style="display: none;">
+                <h2 class="agenda-titulo">Informações adicionais</h2>
+                <p class="agenda-descricao">Preencha suas informações para personalizar sua consulta.</p>
+                <div class="form-grid-agenda">
+                    <div class="form-group-agenda">
+                        <label for="tipo-sanguineo">Tipo sanguíneo</label>
+                        <select id="tipo-sanguineo">
+                            <option value="">Selecione</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="form-group-agenda">
+                        <label for="comorbidades">Comorbidades</label>
+                        <div class="multi-select-container" data-field="comorbidades">
+                            <div class="multi-select-display">
+                                <span class="multi-select-placeholder">Selecione uma ou mais opções</span>
+                            </div>
+                            <div class="multi-select-dropdown">
+                                <div class="multi-select-option" data-value="diabetes">Diabetes</div>
+                                <div class="multi-select-option" data-value="hipertensao">Hipertensão</div>
+                                <div class="multi-select-option" data-value="asma">Asma</div>
+                                <div class="multi-select-option" data-value="cardiopatia">Cardiopatia</div>
+                                <div class="multi-select-option" data-value="obesidade">Obesidade</div>
+                                <div class="multi-select-option" data-value="nenhuma">Nenhuma</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-agenda">
+                        <label for="alergias">Alergias</label>
+                        <div class="multi-select-container" data-field="alergias">
+                            <div class="multi-select-display">
+                                <span class="multi-select-placeholder">Selecione uma ou mais opções</span>
+                            </div>
+                            <div class="multi-select-dropdown">
+                                <div class="multi-select-option" data-value="poeira">Poeira</div>
+                                <div class="multi-select-option" data-value="polen">Pólen</div>
+                                <div class="multi-select-option" data-value="amendoim">Amendoim</div>
+                                <div class="multi-select-option" data-value="lactose">Lactose</div>
+                                <div class="multi-select-option" data-value="gluten">Glúten</div>
+                                <div class="multi-select-option" data-value="frutos-mar">Frutos do mar</div>
+                                <div class="multi-select-option" data-value="nenhuma">Nenhuma</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-agenda">
+                        <label for="preferencias-alimentares">Preferências alimentares</label>
+                        <div class="multi-select-container" data-field="preferencias-alimentares">
+                            <div class="multi-select-display">
+                                <span class="multi-select-placeholder">Selecione uma ou mais opções</span>
+                            </div>
+                            <div class="multi-select-dropdown">
+                                <div class="multi-select-option" data-value="vegetariano">Vegetariano</div>
+                                <div class="multi-select-option" data-value="vegano">Vegano</div>
+                                <div class="multi-select-option" data-value="sem-lactose">Sem lactose</div>
+                                <div class="multi-select-option" data-value="sem-gluten">Sem glúten</div>
+                                <div class="multi-select-option" data-value="low-carb">Low carb</div>
+                                <div class="multi-select-option" data-value="nenhuma">Nenhuma preferência específica</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-agenda">
+                        <label for="intolerancias-alimentares">Intolerâncias alimentares</label>
+                        <div class="multi-select-container" data-field="intolerancias-alimentares">
+                            <div class="multi-select-display">
+                                <span class="multi-select-placeholder">Selecione uma ou mais opções</span>
+                            </div>
+                            <div class="multi-select-dropdown">
+                                <div class="multi-select-option" data-value="lactose">Lactose</div>
+                                <div class="multi-select-option" data-value="gluten">Glúten</div>
+                                <div class="multi-select-option" data-value="frutose">Frutose</div>
+                                <div class="multi-select-option" data-value="histamina">Histamina</div>
+                                <div class="multi-select-option" data-value="nenhuma">Nenhuma</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-agenda">
+                        <label for="aversos-alimentares">Aversões alimentares</label>
+                        <div class="multi-select-container" data-field="aversos-alimentares">
+                            <div class="multi-select-display">
+                                <span class="multi-select-placeholder">Selecione uma ou mais opções</span>
+                            </div>
+                            <div class="multi-select-dropdown">
+                                <div class="multi-select-option" data-value="brocolis">Brócolis</div>
+                                <div class="multi-select-option" data-value="quiabo">Quiabo</div>
+                                <div class="multi-select-option" data-value="figado">Fígado</div>
+                                <div class="multi-select-option" data-value="peixe">Peixe</div>
+                                <div class="multi-select-option" data-value="cogumelos">Cogumelos</div>
+                                <div class="multi-select-option" data-value="nenhuma">Nenhuma</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-agenda full-width-textarea">
+                        <label for="observacoes">OBSERVAÇÕES</label>
+                        <textarea id="observacoes" placeholder="Adicione aqui informações importantes que não foram incluídas nos campos anteriores, como detalhes sobre sua saúde, metas específicas ou preferências adicionais"></textarea>
+                    </div>
+                </div>
+                <div class="agenda-actions">
+                    <button class="btn btn-voltar" onclick="showNextStep('etapa-horario')">VOLTAR</button>
+                    <button class="btn btn-confirmar-agendamento">CONFIRMAR AGENDAMENTO</button>
+                </div>
+                <div id="feedback-agendamento" class="feedback-message" style="display: none;"></div>
+            </div>
+
+            </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="../assets/logo.png" alt="Logo CliniVida">
+            </div>
+            <nav class="rodape-mapa">
+                <h5>Mapa do Site</h5>
+                <ul>
+                    <li><a href="../paciente.html">Home</a></li>
+                    <li><a href="agendamentos.html">Agendamentos</a></li>
+                    <li><a href="historico.html">Histórico Clínico</a></li>
+                    <li><a href="plano.html">Planos e Coberturas</a></li>
+                    <li><a href="perfil.html">Meu Perfil</a></li>
+                    <li><a href="ajuda.html">Suporte</a></li>
+                </ul>
+            </nav>
+            <div class="rodape-contato">
+                <h5>Contato</h5>
+                <p>(xx) xxxxx-xxxx</p>
+                <p>contato@clinivida.com.br</p>
+            </div>
+            <div class="rodape-redes">
+                <h5>Redes Sociais</h5>
+                <div style="display: flex; gap: 10px;">
+                    <a href="#"><img src="../assets/icone-instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="../assets/icone-facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="../assets/icone-whatsapp.png" alt="WhatsApp"></a>
+                </div>
+            </div>
+        </div>
+        <div class="rodape-copy">
+            &copy; 2025 CliniVida. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        // Função para mostrar/esconder as etapas do agendamento
+        function showNextStep(nextStepId) {
+            const steps = document.querySelectorAll('.agenda-step');
+            steps.forEach(step => {
+                step.style.display = 'none';
+            });
+            document.getElementById(nextStepId).style.display = 'block';
+        }
+
+        // Função para mostrar etapa anterior
+        function showPrevStep(prevStepId) {
+            const steps = document.querySelectorAll('.agenda-step');
+            steps.forEach(step => {
+                step.style.display = 'none';
+            });
+            document.getElementById(prevStepId).style.display = 'block';
+        }
+
+        // Calendário funcional
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarDays = document.getElementById('calendar-days');
+            const monthYearDisplay = document.getElementById('month-year');
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+
+            let currentMonth = new Date().getMonth();
+            let currentYear = new Date().getFullYear();
+            let selectedDate = null;
+
+            function renderCalendar(year, month) {
+                calendarDays.innerHTML = '';
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const numDays = lastDay.getDate();
+                const startDay = firstDay.getDay();
+                
+                monthYearDisplay.textContent = new Date(year, month).toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+                
+                // Preencher dias vazios no início do mês
+                for (let i = 0; i < startDay; i++) {
+                    const emptyCell = document.createElement('tr');
+                    if (i === 0) {
+                        for (let j = 0; j < startDay; j++) {
+                            const emptyTd = document.createElement('td');
+                            emptyCell.appendChild(emptyTd);
+                        }
+                    }
+                }
+                
+                // Criar as linhas da tabela
+                let currentRow = document.createElement('tr');
+                let dayCount = 0;
+                
+                // Adicionar células vazias no início
+                for (let i = 0; i < startDay; i++) {
+                    const emptyTd = document.createElement('td');
+                    currentRow.appendChild(emptyTd);
+                    dayCount++;
+                }
+                
+                // Adicionar os dias do mês
+                for (let day = 1; day <= numDays; day++) {
+                    const dayTd = document.createElement('td');
+                    dayTd.textContent = day;
+                    
+                    const currentDate = new Date();
+                    const dayDate = new Date(year, month, day);
+                    
+                    if (dayDate < currentDate.setHours(0,0,0,0)) {
+                        dayTd.classList.add('past-day');
+                    } else if (day % 7 === 0 || day % 13 === 0) {
+                        dayTd.classList.add('unavailable-day');
+                    } else {
+                        dayTd.classList.add('available-day');
+                        dayTd.addEventListener('click', function() {
+                            // Remove seleção anterior
+                            document.querySelectorAll('.selected-day').forEach(d => d.classList.remove('selected-day'));
+                            this.classList.add('selected-day');
+                            selectedDate = dayDate;
+                            
+                            // Atualiza a data selecionada
+                            const dataSelecionada = document.querySelector('.data-selecionada');
+                            if (dataSelecionada) {
+                                dataSelecionada.textContent = dayDate.toLocaleDateString('pt-BR', { 
+                                    weekday: 'long', 
+                                    day: 'numeric', 
+                                    month: 'long' 
+                                });
+                            }
+                        });
+                    }
+                    
+                    currentRow.appendChild(dayTd);
+                    dayCount++;
+                    
+                    // Se completou uma semana, adiciona a linha e cria uma nova
+                    if (dayCount % 7 === 0) {
+                        calendarDays.appendChild(currentRow);
+                        currentRow = document.createElement('tr');
+                    }
+                }
+                
+                // Adicionar a última linha se não estiver vazia
+                if (dayCount % 7 !== 0) {
+                    // Preencher células vazias no final
+                    while (dayCount % 7 !== 0) {
+                        const emptyTd = document.createElement('td');
+                        currentRow.appendChild(emptyTd);
+                        dayCount++;
+                    }
+                    calendarDays.appendChild(currentRow);
+                }
+            }
+
+
+            prevMonthBtn.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentYear, currentMonth);
+            });
+
+            nextMonthBtn.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentYear, currentMonth);
+            });
+
+            renderCalendar(currentYear, currentMonth);
+
+            // Lógica para selecionar horários (exemplo)
+            document.querySelectorAll('.horario-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (!this.classList.contains('unavailable')) {
+                        document.querySelectorAll('.horario-btn.active').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Lógica para seleção múltipla
+            const multiSelects = document.querySelectorAll('.multi-select-container');
+            
+            multiSelects.forEach(container => {
+                const display = container.querySelector('.multi-select-display');
+                const dropdown = container.querySelector('.multi-select-dropdown');
+                const options = container.querySelectorAll('.multi-select-option');
+                const fieldName = container.dataset.field;
+                let selectedValues = [];
+                
+                display.addEventListener('click', () => {
+                    dropdown.classList.toggle('active');
+                    display.classList.toggle('active');
+                });
+                
+                options.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const value = option.dataset.value;
+                        const text = option.textContent;
+                        
+                        if (selectedValues.includes(value)) {
+                            // Remove se já estiver selecionado
+                            selectedValues = selectedValues.filter(v => v !== value);
+                            option.classList.remove('selected');
+                        } else {
+                            // Adiciona se não estiver selecionado
+                            selectedValues.push(value);
+                            option.classList.add('selected');
+                        }
+                        
+                        updateDisplay();
+                    });
+                });
+                
+                function updateDisplay() {
+                    display.innerHTML = '';
+                    
+                    if (selectedValues.length === 0) {
+                        const placeholderSpan = document.createElement('span');
+                        placeholderSpan.className = 'multi-select-placeholder';
+                        placeholderSpan.textContent = 'Selecione uma ou mais opções';
+                        display.appendChild(placeholderSpan);
+                    } else {
+                        selectedValues.forEach(value => {
+                            const option = container.querySelector(`[data-value="${value}"]`);
+                            const tag = document.createElement('div');
+                            tag.className = 'multi-select-tag';
+                            tag.innerHTML = `
+                                ${option.textContent}
+                                <span class="remove-tag" data-value="${value}">×</span>
+                            `;
+                            display.appendChild(tag);
+                        });
+                        
+                        // Adiciona event listeners para remover tags
+                        display.querySelectorAll('.remove-tag').forEach(removeBtn => {
+                            removeBtn.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                const value = removeBtn.dataset.value;
+                                selectedValues = selectedValues.filter(v => v !== value);
+                                container.querySelector(`[data-value="${value}"]`).classList.remove('selected');
+                                updateDisplay();
+                            });
+                        });
+                    }
+                }
+                
+                // Fecha dropdown ao clicar fora
+                document.addEventListener('click', (e) => {
+                    if (!container.contains(e.target)) {
+                        dropdown.classList.remove('active');
+                        display.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+
+        // Função de sair (copiada do paciente.html)
+        const sairBtn = document.getElementById('sair');
+        if (sairBtn) {
+            sairBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('paciente_nome');
+                localStorage.removeItem('paciente_email');
+                localStorage.removeItem('paciente_senha');
+                window.location.href = "../index.html"; // Volta para a home page
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/imageUtils.js"></script>
+    <script src="../js/agendamentosPaciente.js"></script>
+</body>
+</html>

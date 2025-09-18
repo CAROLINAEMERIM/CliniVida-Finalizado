@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Arquivos - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/paciente.css">
+</head>
+<body class="paciente-page">
+    <header class="cabeçalho">
+        <a href="../index.html">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo">
+        </a>
+        <nav>
+            <ul class="menu">
+                <li><a href="../paciente.html">HOME</a></li>
+                <li><a href="agendamentos.html">AGENDAMENTOS</a></li>
+                <li><a href="historico.html">HISTÓRICO CLÍNICO</a></li>
+                <li><a href="plano.html">PLANOS E COBERTURAS</a></li>
+                <li><a href="perfil.html">MEU PERFIL</a></li>
+                <li><a href="ajuda.html">SUPORTE</a></li>
+                <li><a href="arquivos.html" class="ativo">ARQUIVOS</a></li>
+                <li><a href="../index.html" id="sair">SAIR</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper arquivos-paciente-wrapper">
+        <div class="arquivos-header">
+            <h1>Meus Arquivos</h1>
+            <p>Acesse todos os arquivos compartilhados pelos seus profissionais de saúde</p>
+        </div>
+
+        <div class="filtros-arquivos-paciente">
+            <div class="filtro-grupo">
+                <label for="filtro-profissional">Filtrar por profissional:</label>
+                <select id="filtro-profissional" class="input-filtro">
+                    <option value="">Todos os profissionais</option>
+                    <option value="camila-emerim">Camila Emerim (Nutricionista)</option>
+                    <option value="reni-junior">Reni Junior (Personal Trainer)</option>
+                </select>
+            </div>
+            <div class="filtro-grupo">
+                <label for="filtro-tipo-arquivo">Tipo de arquivo:</label>
+                <select id="filtro-tipo-arquivo" class="input-filtro">
+                    <option value="">Todos os tipos</option>
+                    <option value="plano-nutricional">Plano Nutricional</option>
+                    <option value="plano-treino">Plano de Treino</option>
+                    <option value="relatorio">Relatório</option>
+                    <option value="receita">Receitas</option>
+                    <option value="exame">Exames</option>
+                </select>
+            </div>
+            <button class="btn btn-filtrar">Filtrar</button>
+        </div>
+
+        <div class="arquivos-paciente-lista">
+            <div class="arquivo-paciente-item" data-profissional="camila-emerim" data-tipo="plano-nutricional">
+                <div class="arquivo-icon-grande">📄</div>
+                <div class="arquivo-detalhes">
+                    <h3>Plano Alimentar - Janeiro 2025</h3>
+                    <p><strong>Profissional:</strong> Camila Emerim (Nutricionista)</p>
+                    <p><strong>Tipo:</strong> Plano Nutricional</p>
+                    <p><strong>Data de envio:</strong> 08/01/2025</p>
+                    <p><strong>Descrição:</strong> Plano alimentar personalizado com foco em reeducação alimentar e manutenção do peso ideal.</p>
+                </div>
+                <div class="arquivo-acoes-paciente">
+                    <button class="btn btn-primario">📥 Baixar</button>
+                    <button class="btn btn-secundario">👁️ Visualizar</button>
+                </div>
+            </div>
+
+            <div class="arquivo-paciente-item" data-profissional="camila-emerim" data-tipo="receita">
+                <div class="arquivo-icon-grande">🍽️</div>
+                <div class="arquivo-detalhes">
+                    <h3>Receitas Saudáveis</h3>
+                    <p><strong>Profissional:</strong> Camila Emerim (Nutricionista)</p>
+                    <p><strong>Tipo:</strong> Receitas</p>
+                    <p><strong>Data de envio:</strong> 22/12/2024</p>
+                    <p><strong>Descrição:</strong> Coletânea de receitas práticas e nutritivas para o dia a dia, incluindo opções para café da manhã, almoço e jantar.</p>
+                </div>
+                <div class="arquivo-acoes-paciente">
+                    <button class="btn btn-primario">📥 Baixar</button>
+                    <button class="btn btn-secundario">👁️ Visualizar</button>
+                </div>
+            </div>
+
+            <div class="arquivo-paciente-item" data-profissional="reni-junior" data-tipo="plano-treino">
+                <div class="arquivo-icon-grande">💪</div>
+                <div class="arquivo-detalhes">
+                    <h3>Plano de Treino - Iniciante</h3>
+                    <p><strong>Profissional:</strong> Reni Junior (Personal Trainer)</p>
+                    <p><strong>Tipo:</strong> Plano de Treino</p>
+                    <p><strong>Data de envio:</strong> 15/12/2024</p>
+                    <p><strong>Descrição:</strong> Programa de exercícios para iniciantes com foco em condicionamento físico e fortalecimento muscular.</p>
+                </div>
+                <div class="arquivo-acoes-paciente">
+                    <button class="btn btn-primario">📥 Baixar</button>
+                    <button class="btn btn-secundario">👁️ Visualizar</button>
+                </div>
+            </div>
+
+            <div class="arquivo-paciente-item" data-profissional="camila-emerim" data-tipo="relatorio">
+                <div class="arquivo-icon-grande">📊</div>
+                <div class="arquivo-detalhes">
+                    <h3>Relatório Nutricional - Dezembro</h3>
+                    <p><strong>Profissional:</strong> Camila Emerim (Nutricionista)</p>
+                    <p><strong>Tipo:</strong> Relatório</p>
+                    <p><strong>Data de envio:</strong> 10/12/2024</p>
+                    <p><strong>Descrição:</strong> Relatório de progresso nutricional com análise dos resultados obtidos e recomendações para o próximo período.</p>
+                </div>
+                <div class="arquivo-acoes-paciente">
+                    <button class="btn btn-primario">📥 Baixar</button>
+                    <button class="btn btn-secundario">👁️ Visualizar</button>
+                </div>
+            </div>
+
+            <div class="arquivo-paciente-item" data-profissional="reni-junior" data-tipo="relatorio">
+                <div class="arquivo-icon-grande">📈</div>
+                <div class="arquivo-detalhes">
+                    <h3>Avaliação Física - Novembro</h3>
+                    <p><strong>Profissional:</strong> Reni Junior (Personal Trainer)</p>
+                    <p><strong>Tipo:</strong> Relatório</p>
+                    <p><strong>Data de envio:</strong> 28/11/2024</p>
+                    <p><strong>Descrição:</strong> Avaliação física completa com medidas corporais, percentual de gordura e recomendações de treino.</p>
+                </div>
+                <div class="arquivo-acoes-paciente">
+                    <button class="btn btn-primario">📥 Baixar</button>
+                    <button class="btn btn-secundario">👁️ Visualizar</button>
+                </div>
+            </div>
+
+            <div class="arquivo-paciente-item" data-profissional="camila-emerim" data-tipo="exame">
+                <div class="arquivo-icon-grande">🔬</div>
+                <div class="arquivo-detalhes">
+                    <h3>Resultados de Exames Laboratoriais</h3>
+                    <p><strong>Profissional:</strong> Camila Emerim (Nutricionista)</p>
+                    <p><strong>Tipo:</strong> Exames</p>
+                    <p><strong>Data de envio:</strong> 20/11/2024</p>
+                    <p><strong>Descrição:</strong> Resultados dos exames de sangue solicitados para acompanhamento nutricional, incluindo perfil lipídico e glicemia.</p>
+                </div>
+                <div class="arquivo-acoes-paciente">
+                    <button class="btn btn-primario">📥 Baixar</button>
+                    <button class="btn btn-secundario">👁️ Visualizar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="arquivos-vazio" style="display: none;">
+            <div class="vazio-icon">📁</div>
+            <h3>Nenhum arquivo encontrado</h3>
+            <p>Não há arquivos que correspondam aos filtros selecionados.</p>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+            <div class="rodape-logo">
+                <img src="../assets/logo.png" alt="Logo CliniVida">
+            </div>
+            <nav class="rodape-mapa">
+                <h5>Mapa do Site</h5>
+                <ul>
+                    <li><a href="../paciente.html">Home</a></li>
+                    <li><a href="agendamentos.html">Agendamentos</a></li>
+                    <li><a href="historico.html">Histórico Clínico</a></li>
+                    <li><a href="plano.html">Planos e Coberturas</a></li>
+                    <li><a href="perfil.html">Meu Perfil</a></li>
+                    <li><a href="ajuda.html">Suporte</a></li>
+                    <li><a href="arquivos.html">Arquivos</a></li>
+                </ul>
+            </nav>
+            <div class="rodape-contato">
+                <h5>Contato</h5>
+                <p>(xx) xxxxx-xxxx</p>
+                <p>contato@clinivida.com.br</p>
+            </div>
+            <div class="rodape-redes">
+                <h5>Redes Sociais</h5>
+                <div style="display: flex; gap: 10px;">
+                    <a href="#"><img src="../assets/icone-instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="../assets/icone-facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="../assets/icone-whatsapp.png" alt="WhatsApp"></a>
+                </div>
+            </div>
+        </div>
+        <div class="rodape-copy">
+            &copy; 2025 CliniVida. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        // Função de sair
+        const sairBtn = document.getElementById('sair');
+        if (sairBtn) {
+            sairBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('paciente_nome');
+                localStorage.removeItem('paciente_email');
+                localStorage.removeItem('paciente_senha');
+                window.location.href = "../index.html";
+            });
+        }
+
+        // Filtros
+        document.querySelector('.btn-filtrar').addEventListener('click', aplicarFiltrosArquivos);
+        document.getElementById('filtro-profissional').addEventListener('change', aplicarFiltrosArquivos);
+        document.getElementById('filtro-tipo-arquivo').addEventListener('change', aplicarFiltrosArquivos);
+
+        function aplicarFiltrosArquivos() {
+            const filtroProfissional = document.getElementById('filtro-profissional').value;
+            const filtroTipo = document.getElementById('filtro-tipo-arquivo').value;
+            
+            const arquivos = document.querySelectorAll('.arquivo-paciente-item');
+            let arquivosVisiveis = 0;
+            
+            arquivos.forEach(arquivo => {
+                const profissional = arquivo.dataset.profissional;
+                const tipo = arquivo.dataset.tipo;
+                
+                let mostrar = true;
+                
+                if (filtroProfissional && profissional !== filtroProfissional) {
+                    mostrar = false;
+                }
+                
+                if (filtroTipo && tipo !== filtroTipo) {
+                    mostrar = false;
+                }
+                
+                arquivo.style.display = mostrar ? 'block' : 'none';
+                if (mostrar) arquivosVisiveis++;
+            });
+            
+            // Mostrar/esconder mensagem de "nenhum arquivo encontrado"
+            const arquivosVazio = document.querySelector('.arquivos-vazio');
+            if (arquivosVisiveis === 0) {
+                arquivosVazio.style.display = 'block';
+            } else {
+                arquivosVazio.style.display = 'none';
+            }
+        }
+
+        // Ações dos arquivos
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent.includes('Baixar')) {
+                const nomeArquivo = e.target.closest('.arquivo-paciente-item').querySelector('h3').textContent;
+                alert(`Download iniciado: ${nomeArquivo}`);
+            } else if (e.target.textContent.includes('Visualizar')) {
+                const nomeArquivo = e.target.closest('.arquivo-paciente-item').querySelector('h3').textContent;
+                alert(`Abrindo visualização: ${nomeArquivo}`);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Profissional - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <style>
+        .login-profissional-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #885d9f 0%, #6d4685 100%);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card .logo {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .login-card h2 {
+            color: #885d9f;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .form-group-login {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group-login label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group-login input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        .form-group-login input:focus {
+            outline: none;
+            border-color: #885d9f;
+        }
+
+        .btn-login-profissional {
+            width: 100%;
+            padding: 12px;
+            background: #885d9f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-login-profissional:hover {
+            background: #6d4685;
+        }
+
+        .btn-login-profissional:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .link-volta {
+            display: inline-block;
+            margin-top: 20px;
+            color: #885d9f;
+            text-decoration: none;
+        }
+
+        .link-volta:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .success-message {
+            color: #28a745;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-profissional-container">
+        <div class="login-card">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo">
+            <h2>Área do Profissional</h2>
+            
+            <form id="form-login-profissional">
+                <div class="form-group-login">
+                    <label for="email-profissional">Email:</label>
+                    <input type="email" id="email-profissional" name="email" required>
+                </div>
+                
+                <div class="form-group-login">
+                    <label for="senha-profissional">Senha:</label>
+                    <input type="password" id="senha-profissional" name="senha" required>
+                </div>
+                
+                <button type="submit" class="btn-login-profissional" id="btn-submit">
+                    Entrar
+                </button>
+                
+                <div class="loading" id="loading">
+                    Entrando...
+                </div>
+                
+                <div id="error-message" class="error-message"></div>
+                <div id="success-message" class="success-message"></div>
+            </form>
+            
+            <a href="../index.html" class="link-volta">← Voltar para página inicial</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('form-login-profissional');
+            const btnSubmit = document.getElementById('btn-submit');
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+
+            // Verificar se já está logado
+            const userData = localStorage.getItem('userData');
+            const userType = localStorage.getItem('userType');
+            
+            if (userData && userType === 'profissional') {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email-profissional').value;
+                const senha = document.getElementById('senha-profissional').value;
+                
+                // Limpar mensagens
+                errorMessage.textContent = '';
+                successMessage.textContent = '';
+                
+                // Validação básica
+                if (!email || !senha) {
+                    errorMessage.textContent = 'Por favor, preencha todos os campos.';
+                    return;
+                }
+                
+                if (!utils.isValidEmail(email)) {
+                    errorMessage.textContent = 'Por favor, insira um email válido.';
+                    return;
+                }
+                
+                // Mostrar loading
+                btnSubmit.disabled = true;
+                loading.style.display = 'block';
+                
+                try {
+                    const response = await professionalAPI.login({
+                        email: email,
+                        password: senha
+                    });
+                    
+                    // Salvar dados do profissional
+                    localStorage.setItem('authToken', response.token);
+                    localStorage.setItem('userType', 'profissional');
+                    localStorage.setItem('userData', JSON.stringify(response.professional));
+                    
+                    successMessage.textContent = 'Login realizado com sucesso!';
+                    
+                    // Redirecionar após 1 segundo
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                    
+                } catch (error) {
+                    console.error('Erro no login:', error);
+                    errorMessage.textContent = error.message || 'Erro ao fazer login. Verifique suas credenciais.';
+                    
+                } finally {
+                    btnSubmit.disabled = false;
+                    loading.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

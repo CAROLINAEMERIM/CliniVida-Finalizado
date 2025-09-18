@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Profissional - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+</head>
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Carregando...</span></h2>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sair</button>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item active">📊 Dashboard</a></li>
+                    <li><a href="agendamentos.html" class="nav-item">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="dashboard-header">
+                <h1>Dashboard</h1>
+                <p>Bem-vindo(a) ao seu painel de controle profissional</p>
+            </div>
+
+            <div class="dashboard-cards">
+                <div class="dashboard-card proxima-consulta">
+                    <h3>🕐 Próxima Consulta</h3>
+                    <div class="consulta-info">
+                        <p class="data-hora">Carregando...</p>
+                        <p class="paciente-nome">-</p>
+                        <p class="tipo-consulta">-</p>
+                    </div>
+                    <button class="btn btn-detalhes" onclick="abrirDetalhesProximaConsulta()">Ver Detalhes</button>
+                </div>
+
+                <div class="dashboard-card ultimo-arquivo">
+                    <h3>📎 Último Arquivo Enviado</h3>
+                    <div class="plano-info">
+                        <p class="plano-nome">Plano Alimentar - Ana Costa</p>
+                        <p class="plano-data">Enviado em 08/01/2025</p>
+                    </div>
+                    <button class="btn btn-secundario">Baixar</button>
+                </div>
+            </div>
+
+            <div class="agenda-rapida">
+                <h2>📅 Agenda de Hoje</h2>
+                <div class="agenda-lista">
+                    <div class="agenda-item">
+                        <div class="horario">-</div>
+                        <div class="paciente">Carregando agenda...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modal-detalhes-consulta" class="modal-profissional">
+        <div class="modal-conteudo-profissional">
+            <button class="modal-fechar" onclick="fecharModal('modal-detalhes-consulta')">&times;</button>
+            <h2>Detalhes da Consulta</h2>
+            <div id="detalhes-consulta-conteudo">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+            <div class="modal-acoes">
+                <button class="btn btn-secundario" onclick="redirecionarParaFicha()">Compartilhar Arquivo</button>
+                <button class="btn btn-terciario" onclick="redirecionarParaFicha()">Ver Ficha do Paciente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('profissional_logado');
+            window.location.href = '../index.html';
+        });
+
+        // Carregar nome do profissional
+        document.addEventListener('DOMContentLoaded', function() {
+            const nomeProfissional = localStorage.getItem('profissional_nome') || 'Profissional';
+            document.getElementById('nome-profissional').textContent = nomeProfissional;
+        });
+
+        // Função para abrir detalhes da próxima consulta
+        function abrirDetalhesProximaConsulta() {
+            // Verificar se o dashboard.js carregou dados dinâmicos
+            const proximaConsultaCard = document.querySelector('.proxima-consulta');
+            const pacienteNome = proximaConsultaCard?.querySelector('.paciente-nome')?.textContent;
+            
+            // Se tiver dados carregados dinamicamente e função específica disponível, usar ela
+            if (pacienteNome && pacienteNome !== '-' && window.abrirDetalhesAgendamento) {
+                // Se tiver ID específico do agendamento, usar a função da API
+                // Por enquanto usar simulação até integração completa
+                console.log('Abrindo detalhes para:', pacienteNome);
+            }
+            
+            // Sempre usar dados simulados por enquanto (até integração completa)
+            abrirDetalhesConsulta('ana-costa');
+        }
+
+        function abrirDetalhesConsulta(pacienteId) {
+            const modal = document.getElementById('modal-detalhes-consulta');
+            const conteudo = document.getElementById('detalhes-consulta-conteudo');
+            
+            // Armazenar o ID do paciente atual no modal para uso posterior
+            modal.setAttribute('data-paciente-id', pacienteId);
+            
+            // Dados simulados baseados no ID do paciente
+            const dadosConsulta = {
+                'ana-costa': {
+                    nome: 'Ana Costa',
+                    data: '20/01/2025',
+                    hora: '09:00',
+                    tipo: 'Consulta Inicial - Nutrição',
+                    telefone: '(11) 99999-9999',
+                    observacoes: 'Primeira consulta. Paciente busca reeducação alimentar.'
+                },
+                'carlos-lima': {
+                    nome: 'Carlos Lima',
+                    data: '20/01/2025',
+                    hora: '10:30',
+                    tipo: 'Consulta de Retorno - Nutrição',
+                    telefone: '(11) 88888-8888',
+                    observacoes: 'Retorno para avaliação do plano alimentar.'
+                },
+                'maria-silva': {
+                    nome: 'Maria Silva',
+                    data: '20/01/2025',
+                    hora: '14:30',
+                    tipo: 'Consulta Nutricional',
+                    telefone: '(11) 77777-7777',
+                    observacoes: 'Consulta de acompanhamento nutricional.'
+                }
+            };
+
+            const dados = dadosConsulta[pacienteId] || dadosConsulta['ana-costa'];
+            
+            conteudo.innerHTML = `
+                <div class="detalhes-grid">
+                    <div class="detalhe-item">
+                        <strong>Paciente:</strong> ${dados.nome}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Data:</strong> ${dados.data}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Horário:</strong> ${dados.hora}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Tipo:</strong> ${dados.tipo}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Telefone:</strong> ${dados.telefone}
+                    </div>
+                    <div class="detalhe-item observacoes">
+                        <strong>Observações:</strong><br>
+                        ${dados.observacoes}
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Função para fechar modal
+        function fecharModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-detalhes-consulta');
+            if (event.target === modal) {
+                fecharModal('modal-detalhes-consulta');
+            }
+        }
+
+        function redirecionarParaFicha() {
+            // Obter o ID do paciente armazenado no modal
+            const modal = document.getElementById('modal-detalhes-consulta');
+            const pacienteId = modal.getAttribute('data-paciente-id') || 'ana-costa';
+            
+            // Redirecionar para a ficha do paciente com o ID correto
+            window.location.href = `ficha-paciente.html?id=${pacienteId}`;
+        }
+    </script>
+    
+    <!-- Scripts da API -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/profissional/dashboard.js"></script>
+</body>
+</html>

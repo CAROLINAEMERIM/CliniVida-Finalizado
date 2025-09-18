@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivos Compartilhados - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+</head>
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Camila Emerim</span></h2>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sair</button>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item">📊 Dashboard</a></li>
+                    <li><a href="agendamentos.html" class="nav-item">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item active">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="page-header">
+                <h1>Arquivos Compartilhados</h1>
+                <p>Gerencie e compartilhe arquivos com seus pacientes</p>
+            </div>
+
+            <div class="upload-section">
+                <div class="upload-card">
+                    <h3>Compartilhar Novo Arquivo</h3>
+                    <form class="upload-form" id="upload-form">
+                        <div class="form-group">
+                            <label for="arquivo">Selecionar Arquivo:</label>
+                            <input type="file" id="arquivo" name="arquivo" accept=".pdf,.doc,.docx,.jpg,.png" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="destinatario">Destinatário:</label>
+                            <select id="destinatario" name="destinatario" required>
+                                <option value="">Selecione um paciente</option>
+                                <!-- Pacientes carregados dinamicamente via API -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo-arquivo">Tipo de Arquivo:</label>
+                            <select id="tipo-arquivo" name="tipo-arquivo" required>
+                                <option value="">Selecione o tipo</option>
+                                <option value="plano-nutricional">Plano Nutricional</option>
+                                <option value="plano-treino">Plano de Treino</option>
+                                <option value="relatorio">Relatório</option>
+                                <option value="receita">Receita</option>
+                                <option value="exame">Exame</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao">Descrição:</label>
+                            <textarea id="descricao" name="descricao" placeholder="Descreva o conteúdo do arquivo..." rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primario">Enviar Arquivo</button>
+                    </form>
+                    <div id="feedback-upload" class="feedback-message" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div class="arquivos-section">
+                <div class="section-header">
+                    <h2>📁 Arquivos Enviados</h2>
+                    <div class="filtros-arquivos">
+                        <select id="filtro-paciente" class="input-filtro">
+                            <option value="">Todos os pacientes</option>
+                            <!-- Pacientes carregados dinamicamente via API -->
+                        </select>
+                        <select id="filtro-tipo" class="input-filtro">
+                            <option value="">Todos os tipos</option>
+                            <option value="plano-nutricional">Plano Nutricional</option>
+                            <option value="plano-treino">Plano de Treino</option>
+                            <option value="relatorio">Relatório</option>
+                            <option value="receita">Receita</option>
+                            <option value="exame">Exame</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="arquivos-lista">
+                    <!-- Arquivos carregados dinamicamente via API -->
+                    <p class="loading">Carregando arquivos...</p>
+                </div>
+                <div id="feedback-arquivos" class="feedback-message" style="display: none;"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="modal-confirmar-exclusao" class="modal-profissional" style="display: none;">
+        <div class="modal-conteudo-profissional">
+            <div class="modal-header">
+                <h3>⚠️ Confirmar Exclusão</h3>
+                <span class="modal-fechar" id="fechar-modal-exclusao">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Deseja realmente excluir este arquivo?</p>
+                <p><strong id="nome-arquivo-exclusao"></strong></p>
+                <p class="warning-text">Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-acoes">
+                <button class="btn btn-secundario" id="cancelar-exclusao">Cancelar</button>
+                <button class="btn btn-primario btn-danger" id="confirmar-exclusao">Excluir Arquivo</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/profissional/arquivos.js"></script>
+</body>
+</html>

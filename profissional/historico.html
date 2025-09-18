@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Consultas - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+    <!-- Scripts de API -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/profissional.js"></script>
+</head>
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Camila Emerim</span></h2>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sair</button>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item">📊 Dashboard</a></li>
+                    <li><a href="agendamentos.html" class="nav-item">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item active">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="page-header">
+                <h1>Histórico de Consultas</h1>
+                <p>Consulte suas consultas anteriores e anotações</p>
+            </div>
+
+            <div class="filtros-historico">
+                <div class="filtro-grupo">
+                    <label for="periodo-inicial">Período inicial:</label>
+                    <input type="date" id="periodo-inicial" class="input-filtro">
+                </div>
+                <div class="filtro-grupo">
+                    <label for="periodo-final">Período final:</label>
+                    <input type="date" id="periodo-final" class="input-filtro">
+                </div>
+                <div class="filtro-grupo">
+                    <label for="buscar-paciente">Buscar paciente:</label>
+                    <input type="text" id="buscar-paciente" placeholder="Nome do paciente" class="input-filtro">
+                </div>
+                <button class="btn btn-filtrar">Pesquisar</button>
+            </div>
+
+            <div class="historico-table-container">
+                <table class="historico-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Paciente</th>
+                            <th>Tipo de Atendimento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" style="text-align:center;">Carregando histórico...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Detalhes do Histórico -->
+    <div id="modal-detalhes-historico" class="modal-profissional">
+        <div class="modal-conteudo-profissional">
+            <button class="modal-fechar" onclick="fecharModal('modal-detalhes-historico')">&times;</button>
+            <h2>Detalhes da Consulta</h2>
+            <div id="detalhes-historico-conteudo">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+            <div class="modal-acoes">
+                <button class="btn btn-secundario" onclick="verFichaCompleta()" id="btn-ficha-completa">Ver Ficha Completa</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Helpers
+        function getProfessionalData() {
+            try {
+                const userType = localStorage.getItem('userType');
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                if (!userData || userType !== 'profissional') {
+                    window.location.href = 'login.html';
+                    return null;
+                }
+                return userData;
+            } catch (e) { return null; }
+        }
+
+        function setLoading(tbody, loading) {
+            if (loading) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Carregando...</td></tr>';
+            }
+        }
+
+        function formatDateISO(date) {
+            if (typeof date === 'string') return date;
+            const d = new Date(date);
+            return d.toISOString().split('T')[0];
+        }
+
+        // Carregar histórico com filtros
+    async function carregarHistorico({ inicio, fim, nomePaciente } = {}) {
+            const profissional = getProfessionalData();
+            if (!profissional) return;
+
+            const tbody = document.querySelector('.historico-table tbody');
+            setLoading(tbody, true);
+
+            // Defaults: últimos 30 dias até hoje
+            const hoje = new Date();
+            const defaultFim = formatDateISO(hoje);
+            const defaultInicio = formatDateISO(new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() - 30));
+
+            const dataInicio = inicio || document.getElementById('periodo-inicial').value || defaultInicio;
+            const dataFim = fim || document.getElementById('periodo-final').value || defaultFim;
+            const busca = (nomePaciente ?? (document.getElementById('buscar-paciente').value || '')).toLowerCase().trim();
+
+            // Preencher inputs se estiverem vazios
+            document.getElementById('periodo-inicial').value = dataInicio;
+            document.getElementById('periodo-final').value = dataFim;
+
+                        try {
+                                const consultas = await consultaAPI.getPast({
+                                        data_inicio: dataInicio,
+                                        data_fim: dataFim,
+                                        nome: busca || undefined,
+                                });
+
+                                // Se o backend já retorna filtrado por profissional, ótimo; senão, filtramos aqui
+                                const lista = Array.isArray(consultas) ? consultas : [];
+                                const filtradas = lista.filter(c => !c.profissional_id || c.profissional_id === profissional.id)
+                                    .sort((a, b) => {
+                                        if (a.data === b.data) {
+                                            return (b.hora_inicio || '').localeCompare(a.hora_inicio || '');
+                                        }
+                                        return b.data.localeCompare(a.data);
+                                    });
+
+                                if (!filtradas.length) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nenhuma consulta encontrada.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = filtradas.map(c => `
+                    <tr>
+                        <td>${utils.formatDateForDisplay(c.data)}</td>
+                        <td>${c.paciente?.name || 'Paciente'}</td>
+                        <td>${c.descricao || 'Consulta'}</td>
+                        <td>
+                            <button class="btn-mini" onclick="visualizarDetalhes(${c.id})">Ver Detalhes</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error('Erro ao carregar histórico:', error);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#c00;">Erro ao carregar histórico.</td></tr>';
+            }
+        }
+
+        let consultaAtual = null;
+
+        // Visualizar detalhes via API
+        async function visualizarDetalhes(consultaId) {
+            const modal = document.getElementById('modal-detalhes-historico');
+            const conteudo = document.getElementById('detalhes-historico-conteudo');
+            try {
+                conteudo.innerHTML = '<p>Carregando...</p>';
+                modal.style.display = 'flex';
+
+                consultaAtual = await consultaAPI.getById(consultaId);
+
+                conteudo.innerHTML = `
+                    <div class="detalhes-historico-grid">
+                        <div class="detalhe-item"><strong>Paciente:</strong> ${consultaAtual.paciente?.name || 'N/A'}</div>
+                        <div class="detalhe-item"><strong>Data:</strong> ${utils.formatDateForDisplay(consultaAtual.data)}</div>
+                        <div class="detalhe-item"><strong>Horário:</strong> ${consultaAtual.hora_inicio ? utils.formatTimeForDisplay(consultaAtual.hora_inicio) : ''}${consultaAtual.hora_fim ? ' - ' + utils.formatTimeForDisplay(consultaAtual.hora_fim) : ''}</div>
+                        <div class="detalhe-item"><strong>Telefone:</strong> ${consultaAtual.paciente?.phone || 'N/A'}</div>
+                        <div class="detalhe-item"><strong>Email:</strong> ${consultaAtual.paciente?.email || 'N/A'}</div>
+                        <div class="detalhe-item"><strong>Tipo:</strong> ${consultaAtual.descricao || 'Consulta'}</div>
+                        <div class="detalhe-item observacoes-historico" style="grid-column:1/-1;">
+                            <strong>Orientações/Notas:</strong><br>
+                            ${consultaAtual.orientacao || 'Sem orientações'}
+                        </div>
+                        ${consultaAtual.objetivo_paciente ? `<div class="detalhe-item" style="grid-column:1/-1;"><strong>Objetivo do Paciente:</strong><br>${consultaAtual.objetivo_paciente}</div>` : ''}
+                    </div>
+                `;
+            } catch (e) {
+                console.error('Erro ao carregar detalhes da consulta:', e);
+                conteudo.innerHTML = '<p style="color:#c00;">Erro ao carregar detalhes.</p>';
+            }
+        }
+
+        // Fechar modal
+        function fecharModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'modal-detalhes-historico') {
+                consultaAtual = null;
+            }
+        }
+
+        // Função para ver ficha completa do paciente
+        function verFichaCompleta() {
+            if (consultaAtual && consultaAtual.paciente && consultaAtual.paciente.id) {
+                window.location.href = `ficha-paciente.html?id=${consultaAtual.paciente.id}`;
+            } else {
+                alert('Não foi possível acessar a ficha do paciente');
+            }
+        }
+
+        // Fechar modal clicando fora
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal-detalhes-historico');
+            if (event.target === modal) {
+                fecharModal('modal-detalhes-historico');
+            }
+        });
+
+        // Eventos de filtro
+        document.querySelector('.btn-filtrar').addEventListener('click', function() {
+            const inicio = document.getElementById('periodo-inicial').value;
+            const fim = document.getElementById('periodo-final').value;
+            const nome = document.getElementById('buscar-paciente').value;
+            carregarHistorico({ inicio, fim, nomePaciente: nome });
+        });
+
+        document.getElementById('buscar-paciente').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.btn-filtrar').click();
+            }
+        });
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Se inputs vazios, setar período padrão
+            const hoje = new Date();
+            const fim = formatDateISO(hoje);
+            const inicio = formatDateISO(new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() - 30));
+            if (!document.getElementById('periodo-inicial').value) document.getElementById('periodo-inicial').value = inicio;
+            if (!document.getElementById('periodo-final').value) document.getElementById('periodo-final').value = fim;
+            carregarHistorico();
+        });
+    </script>
+</body>
+</html>

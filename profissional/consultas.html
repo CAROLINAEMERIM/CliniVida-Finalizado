@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas Agendadas - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+</head>
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Camila Emerim</span></h2>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sair</button>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item">📊 Dashboard</a></li>
+                    <li><a href="consultas.html" class="nav-item active">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="page-header">
+                <h1>Consultas Agendadas</h1>
+                <p>Gerencie suas consultas futuras</p>
+            </div>
+
+            <div class="filtros-consulta">
+                <div class="filtro-grupo">
+                    <label for="filtro-data">Filtrar por data:</label>
+                    <input type="date" id="filtro-data" class="input-filtro">
+                </div>
+                <div class="filtro-grupo">
+                    <label for="filtro-paciente">Buscar paciente:</label>
+                    <input type="text" id="filtro-paciente" placeholder="Nome do paciente" class="input-filtro">
+                </div>
+                <button class="btn btn-filtrar">Filtrar</button>
+            </div>
+
+            <div class="consultas-container">
+                <div class="consulta-card">
+                    <div class="consulta-info">
+                        <div class="data-hora">
+                            <span class="data">20/01/2025</span>
+                            <span class="hora">09:00</span>
+                        </div>
+                        <div class="paciente-dados">
+                            <h3>Ana Costa</h3>
+                            <p>Consulta Inicial - Nutrição</p>
+                            <p>📞 (11) 99999-9999</p>
+                        </div>
+                    </div>
+                    <div class="consulta-acoes">
+                        <button class="btn btn-detalhes" onclick="abrirDetalhesConsulta('ana-costa')">Ver Detalhes</button>
+                        <button class="btn btn-secundario">Reagendar</button>
+                    </div>
+                </div>
+
+                <div class="consulta-card">
+                    <div class="consulta-info">
+                        <div class="data-hora">
+                            <span class="data">20/01/2025</span>
+                            <span class="hora">10:30</span>
+                        </div>
+                        <div class="paciente-dados">
+                            <h3>Carlos Lima</h3>
+                            <p>Consulta de Retorno - Nutrição</p>
+                            <p>📞 (11) 88888-8888</p>
+                        </div>
+                    </div>
+                    <div class="consulta-acoes">
+                        <button class="btn btn-detalhes" onclick="abrirDetalhesConsulta('carlos-lima')">Ver Detalhes</button>
+                        <button class="btn btn-secundario">Reagendar</button>
+                    </div>
+                </div>
+
+                <div class="consulta-card">
+                    <div class="consulta-info">
+                        <div class="data-hora">
+                            <span class="data">20/01/2025</span>
+                            <span class="hora">14:30</span>
+                        </div>
+                        <div class="paciente-dados">
+                            <h3>Maria Silva</h3>
+                            <p>Consulta Nutricional</p>
+                            <p>📞 (11) 77777-7777</p>
+                        </div>
+                    </div>
+                    <div class="consulta-acoes">
+                        <button class="btn btn-detalhes" onclick="abrirDetalhesConsulta('maria-silva')">Ver Detalhes</button>
+                        <button class="btn btn-secundario">Reagendar</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Detalhes da Consulta -->
+    <div id="modal-detalhes-consulta" class="modal-profissional">
+        <div class="modal-conteudo-profissional">
+            <button class="modal-fechar" onclick="fecharModal('modal-detalhes-consulta')">&times;</button>
+            <h2>Detalhes da Consulta</h2>
+            <div id="detalhes-consulta-conteudo">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+            <div class="modal-acoes">
+                <button class="btn btn-primario">Adicionar Plano Nutricional</button>
+                <button class="btn btn-secundario">Compartilhar Arquivo</button>
+                <button class="btn btn-terciario">Ver Ficha do Paciente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            if (confirm('Deseja realmente sair?')) {
+                localStorage.removeItem('profissional_logado');
+                window.location.href = '../index.html';
+            }
+        });
+
+        // Carregar nome do profissional
+        document.addEventListener('DOMContentLoaded', function() {
+            const nomeProfissional = localStorage.getItem('profissional_nome') || 'Profissional';
+            document.getElementById('nome-profissional').textContent = nomeProfissional;
+        });
+
+        // Função para abrir detalhes da consulta
+        function abrirDetalhesConsulta(pacienteId) {
+            const modal = document.getElementById('modal-detalhes-consulta');
+            const conteudo = document.getElementById('detalhes-consulta-conteudo');
+            
+            // Dados simulados baseados no ID do paciente
+            const dadosConsulta = {
+                'ana-costa': {
+                    nome: 'Ana Costa',
+                    data: '20/01/2025',
+                    hora: '09:00',
+                    tipo: 'Consulta Inicial - Nutrição',
+                    telefone: '(11) 99999-9999',
+                    observacoes: 'Primeira consulta. Paciente busca reeducação alimentar.'
+                },
+                'carlos-lima': {
+                    nome: 'Carlos Lima',
+                    data: '20/01/2025',
+                    hora: '10:30',
+                    tipo: 'Consulta de Retorno - Nutrição',
+                    telefone: '(11) 88888-8888',
+                    observacoes: 'Retorno para avaliação do plano alimentar.'
+                },
+                'maria-silva': {
+                    nome: 'Maria Silva',
+                    data: '20/01/2025',
+                    hora: '14:30',
+                    tipo: 'Consulta Nutricional',
+                    telefone: '(11) 77777-7777',
+                    observacoes: 'Consulta de acompanhamento nutricional.'
+                }
+            };
+
+            const dados = dadosConsulta[pacienteId];
+            
+            conteudo.innerHTML = `
+                <div class="detalhes-grid">
+                    <div class="detalhe-item">
+                        <strong>Paciente:</strong> ${dados.nome}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Data:</strong> ${dados.data}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Horário:</strong> ${dados.hora}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Tipo:</strong> ${dados.tipo}
+                    </div>
+                    <div class="detalhe-item">
+                        <strong>Telefone:</strong> ${dados.telefone}
+                    </div>
+                    <div class="detalhe-item observacoes">
+                        <strong>Observações:</strong><br>
+                        ${dados.observacoes}
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Função para fechar modal
+        function fecharModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-detalhes-consulta');
+            if (event.target === modal) {
+                fecharModal('modal-detalhes-consulta');
+            }
+        }
+
+        // Filtros
+        document.querySelector('.btn-filtrar').addEventListener('click', function() {
+            const dataFiltro = document.getElementById('filtro-data').value;
+            const pacienteFiltro = document.getElementById('filtro-paciente').value.toLowerCase();
+            
+            // Implementar lógica de filtro aqui
+            alert('Filtros aplicados! (Funcionalidade será implementada)');
+        });
+    </script>
+</body>
+</html>

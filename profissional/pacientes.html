@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes - CliniVida</title>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/profissional.css">
+</head>
+<body class="profissional-page">
+    <header class="header-profissional">
+        <div class="header-left">
+            <img src="../assets/logo.png" alt="Logo CliniVida" class="logo-profissional">
+            <h2 class="nome-profissional">Dr(a). <span id="nome-profissional">Camila Emerim</span></h2>
+        </div>
+        <button class="btn-logout" id="logout-btn">Sair</button>
+    </header>
+
+    <div class="layout-profissional">
+        <aside class="sidebar-profissional">
+            <nav class="nav-profissional">
+                <ul>
+                    <li><a href="index.html" class="nav-item">📊 Dashboard</a></li>
+                    <li><a href="agendamentos.html" class="nav-item">📅 Consultas Agendadas</a></li>
+                    <li><a href="historico.html" class="nav-item">📋 Histórico de Consultas</a></li>
+                    <li><a href="pacientes.html" class="nav-item active">👥 Pacientes</a></li>
+                    <li><a href="arquivos.html" class="nav-item">📎 Arquivos Compartilhados</a></li>
+                    <li><a href="perfil.html" class="nav-item">👤 Meu Perfil</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-profissional">
+            <div class="page-header">
+                <h1>Meus Pacientes</h1>
+                <p>Gerencie e acompanhe todos os seus pacientes</p>
+            </div>
+
+            <div class="filtros-pacientes">
+                <div class="filtro-grupo">
+                    <label for="buscar-nome">Buscar por nome:</label>
+                    <input type="text" id="buscar-nome" placeholder="Digite o nome do paciente" class="input-filtro">
+                </div>
+                <div class="filtro-grupo">
+                    <label for="filtro-status">Status:</label>
+                    <select id="filtro-status" class="input-filtro">
+                        <option value="">Todos</option>
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                    </select>
+                </div>
+                <button class="btn btn-filtrar">Filtrar</button>
+            </div>
+
+            <div class="pacientes-table-container">
+                <div id="loading-pacientes" class="loading-message" style="display: none;">
+                    <p>🔄 Carregando pacientes...</p>
+                </div>
+                <div id="erro-pacientes" class="loading-message" style="text-align: center; padding: 20px; color: #e74c3c; display: none;">
+                    <p style="color: #e74c3c;">❌ Erro ao carregar pacientes. Tente novamente.</p>
+                    <button class="btn" onclick="recarregarPacientes()" style="margin-top: 15px;">🔄 Recarregar</button>
+                </div>
+                <table class="pacientes-table" id="tabela-pacientes">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pacientes-tbody">
+                        <!-- Os pacientes serão carregados dinamicamente via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/profissional/pacientes.js"></script>
+</body>
+</html>
