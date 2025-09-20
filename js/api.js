@@ -1,5 +1,5 @@
 // Configuração da API
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://api-tcc-v2pq.onrender.com';
 
 // Instância do Axios com configurações padrão
 const api = axios.create({
@@ -673,3 +673,4 @@ window.consultaAPI = consultaAPI;
 window.planAPI = planAPI;
 window.fileAPI = fileAPI;
 window.utils = utils;
+
